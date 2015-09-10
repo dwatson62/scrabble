@@ -12,7 +12,6 @@ app.controller('ScrabbleController', ['$http', function($http) {
       }
     }
     self.bag = _.shuffle(bag);
-    self.distributeLetters();
   };
 
   self.distributeLetters = function() {

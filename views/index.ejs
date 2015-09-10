@@ -17,8 +17,12 @@
     <input type='text' ng-model='scrbCtrl.input'>
     <button ng-click='scrbCtrl.giveWord()'>Click me</button>
     <button ng-click='scrbCtrl.createBag()'>Create Bag</button>
+    <button ng-click='scrbCtrl.distributeLetters()'>Get letters</button>
     <div ng-model='scrbCtrl.points'>
       {{ scrbCtrl.points }}
+    </div>
+    <div ng-repeat='letter in scrbCtrl.player1Letters track by $index'>
+      {{ letter }}
     </div>
   </body>
 </html>
