@@ -1,0 +1,26 @@
+{
+  "name": "scrabble",
+  "version": "0.0.0",
+  "homepage": "https://github.com/dwatson62/till_tech_test",
+  "authors": [
+    "Daryl Watson <darylwtsn@gmail.com>"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "jquery": "~2.1.4",
+    "angular": "~1.4.3",
+    "jquery-ui": "~1.11.4"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.3",
+    "angular-route": "~1.4.3"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

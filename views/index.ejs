@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app='ScrabbleApp'>
+  <head>
+    <title>Scrabble</title>
+    <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src='bower_components/angular/angular.js'></script>
+    <script src='bower_components/jquery/dist/jquery.js'></script>
+    <script src='/javascripts/angularApp.js'></script>
+    <script src='/javascripts/scrabbleController.js'></script>
+  </head>
+  <body ng-controller='ScrabbleController as scrbCtrl'>
+    <p>Welcome to Scrabble</p>
+    <button ng-click='scrbCtrl.sayHello()'>Click me</button>
+  </body>
+</html>
