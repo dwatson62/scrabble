@@ -8,9 +8,11 @@
     <script src='bower_components/jquery/dist/jquery.js'></script>
     <script src='/javascripts/angularApp.js'></script>
     <script src='/javascripts/scrabbleController.js'></script>
+    <script src='secrets/secrets.js'></script>
   </head>
   <body ng-controller='ScrabbleController as scrbCtrl'>
     <p>Welcome to Scrabble</p>
-    <button ng-click='scrbCtrl.sayHello()'>Click me</button>
+    <input type='text' ng-model='scrbCtrl.input'>
+    <button ng-click='scrbCtrl.giveWord()'>Click me</button>
   </body>
 </html>
