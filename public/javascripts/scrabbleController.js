@@ -13,8 +13,17 @@ app.controller('ScrabbleController', ['$http', function($http) {
           console.log('Not a word!')
         } else {
           console.log(response.data[0].text)
+          self.getPoints();
         }
       });
+  };
+
+  self.getPoints = function() {
+    var letters = self.input.split('');
+    self.points = [];
+    for (var x in letters) {
+      self.points.push(letterValues[letters[x]]);
+    }
   };
 
 }]);
