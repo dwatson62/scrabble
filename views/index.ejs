@@ -6,6 +6,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src='bower_components/angular/angular.js'></script>
     <script src='bower_components/jquery/dist/jquery.js'></script>
+    <script src='bower_components/underscore/underscore.js'></script>
     <script src='/javascripts/angularApp.js'></script>
     <script src='secrets/secrets.js'></script>
     <script src='secrets/letters.js'></script>
@@ -15,6 +16,7 @@
     <p>Welcome to Scrabble</p>
     <input type='text' ng-model='scrbCtrl.input'>
     <button ng-click='scrbCtrl.giveWord()'>Click me</button>
+    <button ng-click='scrbCtrl.createBag()'>Create Bag</button>
     <div ng-model='scrbCtrl.points'>
       {{ scrbCtrl.points }}
     </div>
