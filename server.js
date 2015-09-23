@@ -20,6 +20,7 @@ app.set('view engine', 'ejs');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use('/secrets', express.static(__dirname + '/secrets'));
+app.use('/src', express.static(__dirname + '/src'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

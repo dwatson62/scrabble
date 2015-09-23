@@ -26,4 +26,25 @@ describe('Scrabble Controller', function() {
     expect(ctrl.player1Letters.length).toEqual(7);
   });
 
+  it('Correctly deletes selected letters', function() {
+    ctrl.player1Letters = ['k', 'e', 'o', 'i', 'o', 'r', 't'];
+    ctrl.input = 'kite';
+    ctrl.checkValidLetters();
+    expect(ctrl.testLetters).toEqual(['o', 'o', 'r']);
+  });
+
+  it('Correctly deletes selected letters when more than one', function() {
+    ctrl.player1Letters = ['k', 'e', 'o', 'i', 'o', 'r', 't'];
+    ctrl.input = 'keo';
+    ctrl.checkValidLetters();
+    expect(ctrl.testLetters).toEqual(['i', 'o', 'r', 't']);
+  });
+
+  it('Correctly handles blank letters', function() {
+    ctrl.player1Letters = ['blank', 'e', 'o', 'i', 'o', 'r', 't'];
+    ctrl.input = 'kite';
+    ctrl.checkValidLetters();
+    expect(ctrl.testLetters).toEqual(['o', 'o', 'r']);
+  });
+
 });

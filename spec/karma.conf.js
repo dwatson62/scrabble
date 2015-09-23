@@ -21,7 +21,7 @@ module.exports = function(config) {
         'bower_components/jquery-ui/jquery-ui.js',
         'bower_components/underscore/underscore.js',
         'secrets/letters.js',
-        'public/javascripts/*.js',
+        'src/*.js',
         'spec/*.js'
     ],
 

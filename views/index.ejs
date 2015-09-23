@@ -7,22 +7,26 @@
     <script src='bower_components/angular/angular.js'></script>
     <script src='bower_components/jquery/dist/jquery.js'></script>
     <script src='bower_components/underscore/underscore.js'></script>
-    <script src='/javascripts/angularApp.js'></script>
+    <script src='src/app.js'></script>
+    <script src='src/scrabbleController.js'></script>
     <script src='secrets/secrets.js'></script>
     <script src='secrets/letters.js'></script>
-    <script src='/javascripts/scrabbleController.js'></script>
   </head>
-  <body ng-controller='ScrabbleController as scrbCtrl'>
+  <body ng-controller='ScrabbleController as scrbCtrl' ng-init='scrbCtrl.setup()'>
     <p>Welcome to Scrabble</p>
     <input type='text' ng-model='scrbCtrl.input'>
-    <button ng-click='scrbCtrl.giveWord()'>Click me</button>
+    <button ng-click='scrbCtrl.giveWord()'>Play</button>
     <button ng-click='scrbCtrl.createBag()'>Create Bag</button>
     <button ng-click='scrbCtrl.distributeLetters()'>Get letters</button>
     <div ng-model='scrbCtrl.points'>
-      {{ scrbCtrl.points }}
+      {{ scrbCtrl.totalScore }}
     </div>
-    <div ng-repeat='letter in scrbCtrl.player1Letters track by $index'>
-      {{ letter }}
+    <div ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
+      {{ history.word }} {{ history.points }}
+    </div>
+    <br>
+    <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">
+      <img ng-src="/images/tiles/letter-{{ letter }}.jpg" height="60">
     </div>
   </body>
 </html>
