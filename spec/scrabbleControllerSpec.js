@@ -47,4 +47,11 @@ describe('Scrabble Controller', function() {
     expect(ctrl.testLetters).toEqual(['o', 'o', 'r']);
   });
 
+  it('Correctly handles two blank letters', function() {
+    ctrl.player1Letters = ['blank', 'blank', 'o', 'i', 'o', 'r', 't'];
+    ctrl.input = 'kite';
+    ctrl.checkValidLetters();
+    expect(ctrl.testLetters).toEqual(['o', 'o', 'r']);
+  });
+
 });

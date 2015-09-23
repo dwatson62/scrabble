@@ -32,11 +32,9 @@ app.controller('ScrabbleController', ['$http', function($http) {
 
   self.giveWord = function() {
     if (self.checkValidLetters() === false) {
-      console.log('You suck')
-      return;
+      return console.log('You suck');
     }
     var request = self.createRequest();
-    console.log(self.input)
     $http.get(request).
       then(function(response) {
         if (response.data.length === 0) {
@@ -54,14 +52,21 @@ app.controller('ScrabbleController', ['$http', function($http) {
     var word = self.input.split('');
     self.testLetters = _.clone(self.player1Letters);
     for (var i in word) {
-      for (var j in self.testLetters) {
-        if (word[i] === self.testLetters[j]) {
-          self.testLetters.splice(j, 1);
-          break;
-        }
+      self.removeFirst(word[i]);
+    }
+    return self.testLetters.length === (7 - word.length);
+  };
+
+  self.removeFirst = function(letter) {
+    var blanks = 0;
+    for (var j in self.testLetters) {
+      if (letter === self.testLetters[j]) {
+        return self.testLetters.splice(j, 1);
+      } else if (self.testLetters[j] === 'blank') {
+        blanks ++;
       }
     }
-    return self.testLetters.length === (7 - word.length)
+    if (blanks !== 0) { self.removeFirst('blank'); }
   };
 
   self.createRequest = function() {
