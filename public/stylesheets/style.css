@@ -7,6 +7,14 @@ a {
   color: #00B7FF;
 }
 
+.letter-tile {
+  opacity: 1;
+}
+
+.letter-tile-used {
+  opacity: 0.5;
+}
+
 .tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal; width:60px; height:60px;}
 .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}

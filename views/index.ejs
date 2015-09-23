@@ -29,14 +29,20 @@
     </div>
     <br>
     <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">
-      <img ng-src="/images/tiles/letter-{{ letter }}.jpg" height="60">
+      <img ng-class='scrbCtrl.showSelected(letter)' id='letter-{{ letter }}' ng-src="/images/tiles/letter-{{ letter }}.jpg" height="60" ng-click='scrbCtrl.selectLetter(letter)'>
     </div>
     <table class="tg">
       <% for (x = 0; x < 14; x ++) { %>
         <tr>
-        <% for (y = 0; y < 15; y ++) { %>
-          <td class="tg-031e"><img ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}.png' height="40"></td>
-        <% } %>
+          <% for (y = 0; y < 15; y ++) { %>
+            <td class="tg-031e">
+              <div>
+                <center>
+                  <img id='img<%= x %>-<%= y %>' ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}' height="40" ng-click='scrbCtrl.selectTile(<%= x %>, <%= y %>)'>
+                </center>
+              </div>
+            </td>
+          <% } %>
         </tr>
       <% } %>
     </table>

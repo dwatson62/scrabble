@@ -2,6 +2,7 @@ app.controller('ScrabbleController', ['$http', function($http) {
 
   var self = this;
   self.definitions = [];
+  self.input = [];
   self.player1Letters = [];
   self.history = [];
   self.totalScore = 0;
@@ -9,14 +10,15 @@ app.controller('ScrabbleController', ['$http', function($http) {
   self.setup = function() {
     self.createBag();
     self.distributeLetters();
-    self.createBonuses();
+    self.setupBoard();
   };
 
   self.tile = function(x, y) {
-    if (x === 7 && y === 7) { return 'star'; }
-    var tile = self.bonuses[self.convert(x, y)];
-    if (tile === undefined) { return 'empty'; }
-    return tile;
+    if (x === 7 && y === 7) { return 'star.png'; }
+    var tile = self.board[self.convert(x, y)];
+    if (tile === undefined) { return 'empty.png'; }
+    if (tile.length === 1) { return 'letter-' + tile + '.jpg'; }
+    return tile + '.png';
   };
 
   self.convert = function(x, y) {
@@ -25,8 +27,8 @@ app.controller('ScrabbleController', ['$http', function($http) {
     return str;
   };
 
-  self.createBonuses = function() {
-    self.bonuses =
+  self.setupBoard = function() {
+    self.board =
       {
         'A1': 'tripleword', 'A4': 'doubleletter', 'A8': 'tripleword', 'A12': 'doubleletter', 'A15': 'tripleword',
         'B2': 'doubleword', 'B6': 'tripleletter', 'B10': 'tripleletter', 'B14': 'doubleword',
@@ -44,6 +46,8 @@ app.controller('ScrabbleController', ['$http', function($http) {
         'N2': 'doubleword', 'N6': 'tripleletter', 'N10': 'tripleletter', 'N14': 'doubleword',
         'O1': 'tripleword', 'O4': 'doubleletter', 'O8': 'tripleword', 'O12': 'doubleletter', 'O15': 'tripleword'
       };
+    self.boardCopy = _.clone(self.board);
+    self.bonuses = self.board;
   };
 
   self.createBag = function() {
@@ -69,25 +73,30 @@ app.controller('ScrabbleController', ['$http', function($http) {
   self.giveWord = function() {
     if (self.checkValidLetters() === false) {
       self.definitions.push({ 'word': self.input, 'text': 'You suck!' });
+      self.input = [];
+      self.board = self.boardCopy;
       return;
     }
     var request = self.createRequest();
     $http.get(request).
       then(function(response) {
         if (response.data.length === 0) {
-          self.definitions.push({ 'word': self.input, 'text': 'Not a word!' });
+          self.definitions.push({ 'word': self.input.join(''), 'text': 'Not a word!' });
+          self.input = [];
+          self.board = self.boardCopy;
           return;
         }
         self.player1Letters = self.testLetters;
-        self.definitions.push({ 'word': self.input, 'text': response.data[0].text });
+        self.definitions.push({ 'word': self.input.join(''), 'text': response.data[0].text });
         self.getPoints();
         self.distributeLetters();
-        self.input = null;
+        self.input = [];
+        self.boardCopy = _.clone(self.board);
       });
   };
 
   self.checkValidLetters = function() {
-    var word = self.input.split('');
+    var word = self.input;
     self.testLetters = _.clone(self.player1Letters);
     for (var i in word) {
       self.removeFirst(word[i]);
@@ -109,20 +118,38 @@ app.controller('ScrabbleController', ['$http', function($http) {
 
   self.createRequest = function() {
     var url = 'http://api.wordnik.com:80/v4/word.json/';
-    var word = self.input + '/definitions?';
+    var word = self.input.join('') + '/definitions?';
     var stuff = 'limit=1&includeRelated=true&useCanonical=false&includeTags=false';
     var request = url + word + stuff + '&api_key=' + api_key;
     return request;
   };
 
   self.getPoints = function() {
-    var letters = self.input.split('');
     var points = 0;
-    for (var x in letters) {
-      points += letterValues[letters[x]].points;
+    for (var x in self.input) {
+      points += letterValues[self.input[x]].points;
     }
-    self.history.push( { 'word': self.input, 'points': points } );
+    self.history.push( { 'word': self.input.join(''), 'points': points } );
     self.totalScore += points;
+  };
+
+  self.selectLetter = function(letter) {
+    self.selected = letter;
+  };
+
+  self.selectTile = function(x, y) {
+    var tile = self.convert(x, y);
+    self.board[tile] = self.selected;
+    self.input.push(self.selected);
+
+  };
+
+  self.showSelected = function(letter) {
+    for (var i in self.input) {
+      if (self.input[i] === letter) {
+        return 'letter-tile-used';
+      }
+    }
   };
 
 }]);
