@@ -31,5 +31,14 @@
     <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">
       <img ng-src="/images/tiles/letter-{{ letter }}.jpg" height="60">
     </div>
+    <table class="tg">
+      <% for (x = 0; x < 14; x ++) { %>
+        <tr>
+        <% for (y = 0; y < 15; y ++) { %>
+          <td class="tg-031e"><img ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}.png' height="40"></td>
+        <% } %>
+        </tr>
+      <% } %>
+    </table>
   </body>
 </html>
