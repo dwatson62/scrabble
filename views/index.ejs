@@ -2,8 +2,8 @@
 <html ng-app='ScrabbleApp'>
   <head>
     <title>Scrabble</title>
-    <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
     <script src='bower_components/angular/angular.js'></script>
     <script src='bower_components/jquery/dist/jquery.js'></script>
     <script src='bower_components/underscore/underscore.js'></script>
@@ -13,16 +13,19 @@
     <script src='secrets/letters.js'></script>
   </head>
   <body ng-controller='ScrabbleController as scrbCtrl' ng-init='scrbCtrl.setup()'>
-    <p>Welcome to Scrabble</p>
+    <center>
+      <h1>Scrabble</h1>
+    </center>
     <input type='text' ng-model='scrbCtrl.input'>
     <button ng-click='scrbCtrl.giveWord()'>Play</button>
-    <button ng-click='scrbCtrl.createBag()'>Create Bag</button>
-    <button ng-click='scrbCtrl.distributeLetters()'>Get letters</button>
     <div ng-model='scrbCtrl.points'>
-      {{ scrbCtrl.totalScore }}
+      Total: {{ scrbCtrl.totalScore }}
+    </div>
+    <div ng-repeat='definition in scrbCtrl.definitions | orderBy:"-"'>
+      <li> {{ definition.word }} - {{ definition.text }} </li>
     </div>
     <div ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
-      {{ history.word }} {{ history.points }}
+      <li> {{ history.word }} - {{ history.points }} </li>
     </div>
     <br>
     <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">

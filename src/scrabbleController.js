@@ -1,6 +1,7 @@
 app.controller('ScrabbleController', ['$http', function($http) {
 
   var self = this;
+  self.definitions = [];
   self.player1Letters = [];
   self.history = [];
   self.totalScore = 0;
@@ -32,19 +33,21 @@ app.controller('ScrabbleController', ['$http', function($http) {
 
   self.giveWord = function() {
     if (self.checkValidLetters() === false) {
-      return console.log('You suck');
+      self.definitions.push({ 'word': self.input, 'text': 'You suck!' });
+      return;
     }
     var request = self.createRequest();
     $http.get(request).
       then(function(response) {
         if (response.data.length === 0) {
-          console.log('Not a word!');
-        } else {
-          self.player1Letters = self.testLetters;
-          console.log(response.data[0].text);
-          self.getPoints();
-          self.distributeLetters();
+          self.definitions.push({ 'word': self.input, 'text': 'Not a word!' });
+          return;
         }
+        self.player1Letters = self.testLetters;
+        self.definitions.push({ 'word': self.input, 'text': response.data[0].text });
+        self.getPoints();
+        self.distributeLetters();
+        self.input = null;
       });
   };
 
