@@ -8,6 +8,9 @@
     <script src='bower_components/jquery/dist/jquery.js'></script>
     <script src='bower_components/underscore/underscore.js'></script>
     <script src='src/app.js'></script>
+    <script src='src/gameFactory.js'></script>
+    <script src='src/pointsFactory.js'></script>
+    <script src='src/wordsFactory.js'></script>
     <script src='src/scrabbleController.js'></script>
     <script src='secrets/secrets.js'></script>
     <script src='secrets/letters.js'></script>
@@ -16,8 +19,7 @@
     <center>
       <h1>Scrabble</h1>
     </center>
-    <input type='text' ng-model='scrbCtrl.input'>
-    <button ng-click='scrbCtrl.giveWord()'>Play</button>
+    <button ng-click='scrbCtrl.playWord()'>Play Word</button>
     <div ng-model='scrbCtrl.points'>
       Total: {{ scrbCtrl.totalScore }}
     </div>

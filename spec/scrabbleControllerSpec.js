@@ -26,32 +26,38 @@ describe('Scrabble Controller', function() {
     expect(ctrl.player1Letters.length).toEqual(7);
   });
 
-  it('Correctly deletes selected letters', function() {
-    ctrl.player1Letters = ['k', 'e', 'o', 'i', 'o', 'r', 't'];
-    ctrl.input = 'kite';
-    ctrl.checkValidLetters();
-    expect(ctrl.testLetters).toEqual(['o', 'o', 'r']);
+  describe('Points', function() {
+
+    it('Scores correct points for a word', function() {
+      ctrl.getPoints('kite');
+      expect(ctrl.totalScore).toEqual(8);
+    });
+
+    it('Keeps record of total score', function() {
+      ctrl.getPoints('kite');
+      ctrl.getPoints('fly');
+      expect(ctrl.totalScore).toEqual(17);
+    });
+
   });
 
-  it('Correctly deletes selected letters when more than one', function() {
-    ctrl.player1Letters = ['k', 'e', 'o', 'i', 'o', 'r', 't'];
-    ctrl.input = 'keo';
-    ctrl.checkValidLetters();
-    expect(ctrl.testLetters).toEqual(['i', 'o', 'r', 't']);
-  });
+  describe('History', function() {
 
-  it('Correctly handles blank letters', function() {
-    ctrl.player1Letters = ['blank', 'e', 'o', 'i', 'o', 'r', 't'];
-    ctrl.input = 'kite';
-    ctrl.checkValidLetters();
-    expect(ctrl.testLetters).toEqual(['o', 'o', 'r']);
-  });
+    it('Keeps a definition history of played words', function() {
+      var word = 'eat';
+      var definition = 'To take into the body by the mouth for digestion or absorption.';
+      ctrl.checkLetters = ['i', 'o', 'r', 't'];
+      ctrl.isAWord(word, definition);
+      expect(ctrl.definitions[0]).toEqual({ 'word': word, 'text': definition});
+    });
 
-  it('Correctly handles two blank letters', function() {
-    ctrl.player1Letters = ['blank', 'blank', 'o', 'i', 'o', 'r', 't'];
-    ctrl.input = 'kite';
-    ctrl.checkValidLetters();
-    expect(ctrl.testLetters).toEqual(['o', 'o', 'r']);
+    it('Keeps a points history of played words', function() {
+      var word = 'eat';
+      ctrl.player1Letters = ['k', 'e', 'o', 'i', 'o', 'r', 't'];
+      ctrl.getPoints(word);
+      expect(ctrl.history[0]).toEqual({ 'word': word, 'points': 3});
+    });
+
   });
 
 });
