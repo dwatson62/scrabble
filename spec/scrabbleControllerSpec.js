@@ -77,7 +77,7 @@ describe('Scrabble Controller', function() {
                                   ]);
     });
 
-    it('Went placed out of order, it can sort them correctly', function() {
+    it('When placed out of order, it can sort them correctly', function() {
       placeLetter('p', 1, 0);
       placeLetter('t', 1, 2);
       placeLetter('u', 1, 1);
@@ -87,7 +87,7 @@ describe('Scrabble Controller', function() {
                                   ]);
     });
 
-    it('Went placed out of order, near edge of board it can sort them correctly', function() {
+    it('When placed out of order, near edge of board it can sort them correctly', function() {
       placeLetter('p', 1, 8);
       placeLetter('t', 1, 10);
       placeLetter('u', 1, 9);
@@ -97,7 +97,7 @@ describe('Scrabble Controller', function() {
                                   ]);
     });
 
-    it('Went placed all over the place it can sort them correctly', function() {
+    it('When placed all over the place it can sort them correctly', function() {
       placeLetter('p', 9, 8);
       placeLetter('t', 11, 8);
       placeLetter('u', 10, 8);

@@ -31,7 +31,7 @@
     </div>
     <br>
     <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">
-      <img ng-class='scrbCtrl.showSelected(letter)' id='letter-{{ letter }}' ng-src="/images/tiles/letter-{{ letter }}.jpg" height="60" ng-click='scrbCtrl.selectLetter(letter)'>
+      <img ng-class='scrbCtrl.showSelected(letter)' id='letter-{{ letter }}' ng-src="/images/tiles/letter-{{ letter }}.png" height="60" ng-click='scrbCtrl.selectLetter(letter)'>
     </div>
     <table class="tg">
       <% for (x = 0; x < 14; x ++) { %>
@@ -40,7 +40,7 @@
             <td class="tg-031e">
               <div>
                 <center>
-                  <img id='img<%= x %>-<%= y %>' ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}' height="40" ng-click='scrbCtrl.selectTile(<%= x %>, <%= y %>)'>
+                  <img id='img<%= x %>-<%= y %>' ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}.png' height="40" ng-click='scrbCtrl.selectTile(<%= x %>, <%= y %>)'>
                 </center>
               </div>
             </td>

@@ -43,6 +43,11 @@ app.factory('gameFactory', function() {
     return currentLetters;
   };
 
+  Game.prototype.convert = function(x, y) {
+    var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
+    return letters[x] + String(y + 1);
+  };
+
   return Game;
 
 });

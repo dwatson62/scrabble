@@ -19,16 +19,11 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   };
 
   self.tile = function(x, y) {
-    if (x === 7 && y === 7) { return 'star.png'; }
-    var tile = self.boardDisplay[self.convert(x, y)];
-    if (tile === undefined) { return 'empty.png'; }
-    if (tile.length === 1) { return 'letter-' + tile + '.jpg'; }
-    return tile + '.png';
-  };
-
-  self.convert = function(x, y) {
-    var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
-    return letters[x] + String(y + 1);
+    if (x === 7 && y === 7) { return 'star'; }
+    var tile = self.boardDisplay[gameService.convert(x, y)];
+    if (tile === undefined) { return 'empty'; }
+    if (tile.length === 1 || tile === 'blank') { return 'letter-' + tile; }
+    return tile;
   };
 
   self.setupBoard = function() {
@@ -102,26 +97,18 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   };
 
   self.selectTile = function(x, y) {
-    var tile = self.convert(x, y);
-    if (self.board[tile] !== undefined) {
-      if (self.board[tile].length === 1) { return; }
-    }
+    var tile = gameService.convert(x, y);
+
+          // Checks if already occupied
+    if (_.values(self.board[tile]).length === 1) { return; }
+
     self.boardDisplay[tile] = self.selected;
     self.input.push({ 'letter': self.selected, 'position': tile });
     self.organiseInput();
-    // console.log(_.pluck(self.input, 'letter'));
   };
 
   self.organiseInput = function() {
-    self.input = _.groupBy(self.input, function(num) {
-      return num.position.length;
-    });
-    var newArray = [];
-    newArray.push(_.sortBy(self.input[2], 'position'));
-    if (self.input[3] !== undefined) {
-      newArray.push(_.sortBy(self.input[3], 'position'));
-    }
-    self.input = _.flatten(newArray);
+    self.input = wordService.organiseInput(self.input);
   };
 
   self.showSelected = function(letter) {
