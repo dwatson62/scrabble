@@ -75,9 +75,9 @@ describe('Scrabble Controller', function() {
     });
 
     it('When placed out of order, it can sort them correctly', function() {
+      placeLetter(1, 1, 1);
       placeLetter(0, 1, 0);
       placeLetter(2, 1, 2);
-      placeLetter(1, 1, 1);
       expect(ctrl.input).toEqual([{ letter: 'p', position: 'B1' },
                                   { letter: 'u', position: 'B2' },
                                   { letter: 't', position: 'B3' }
@@ -85,9 +85,9 @@ describe('Scrabble Controller', function() {
     });
 
     it('When placed out of order, near edge of board it can sort them correctly', function() {
+      placeLetter(1, 1, 9);
       placeLetter(0, 1, 8);
       placeLetter(2, 1, 10);
-      placeLetter(1, 1, 9);
       expect(ctrl.input).toEqual([{ letter: 'p', position: 'B9' },
                                   { letter: 'u', position: 'B10' },
                                   { letter: 't', position: 'B11' }
@@ -95,9 +95,9 @@ describe('Scrabble Controller', function() {
     });
 
     it('When placed all over the place it can sort them correctly', function() {
+      placeLetter(1, 10, 8);
       placeLetter(0, 9, 8);
       placeLetter(2, 11, 8);
-      placeLetter(1, 10, 8);
       expect(ctrl.input).toEqual([{ letter: 'p', position: 'J9' },
                                   { letter: 'u', position: 'K9' },
                                   { letter: 't', position: 'M9' }

@@ -61,6 +61,10 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
           // Display board tiles at correct opacity
 
   self.showBoardTiles = function(x, y) {
+    if (self.input.length === 0) { return 'board-tiles-active'; }
+    if (boardTileService.showLaidTiles(x, y, self.input) === true) {
+      return 'board-tiles-active';
+    }
     return boardTileService.showBoardTiles(x, y, self.input);
   };
 
@@ -152,6 +156,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     _.each(_.pluck(self.input, 'position'), function(position) {
       self.boardDisplay[position] = self.bonuses[position];
     });
+    boardTileService.resetDirection();
   };
 
   self.clear = function() {

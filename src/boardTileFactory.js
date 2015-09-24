@@ -2,6 +2,13 @@ app.factory('boardTileFactory', function() {
 
   var BoardTile = function() {
     this.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
+    this.vertical = false;
+    this.horizontal = false;
+  };
+
+  BoardTile.prototype.resetDirection = function() {
+    this.vertical = false;
+    this.horizontal = false;
   };
 
   BoardTile.prototype.setTile = function(x, y, board) {
@@ -20,22 +27,34 @@ app.factory('boardTileFactory', function() {
   BoardTile.prototype.reverseConvert = function(tile) {
     var splitTile = _.initial(tile.split(/(\d+)/));
     splitTile[0] = _.indexOf(this.letters, splitTile[0]);
-    splitTile[1] = parseInt(splitTile[1]) - 1;
+    splitTile[1] = parseInt(splitTile[1], 10) - 1;
     return splitTile;
   };
 
   BoardTile.prototype.showBoardTiles = function(x, y, playerInput) {
-    for (var i in playerInput) {
-      if (this.convert(x, y) === playerInput[i].position) {
-        return 'board-tiles-active';
-      }
-    }
     if (playerInput.length === 1) {
       return this.showWhenOneTileLaid(x, y, playerInput);
-    } else if (playerInput.length > 1) {
-      return this.showTilesLaidVertically(x, y, playerInput);
+    } else if (this.horizontal === false && this.vertical === false) {
+      // need to calculate if letters are being laid horizontal or vertical
+      var tile = this.reverseConvert(playerInput[0].position);
+      var tile2 = this.reverseConvert(playerInput[1].position);
+      if (this.aboveOrBelow(tile, tile2[0], tile2[1]) === true) {
+        this.vertical = true;
+      } else if (this.eitherSide(tile, x, y) === true) {
+        this.horizontal = true;
+      }
     }
-    return 'board-tiles-active';
+    if (this.vertical === true) {
+      return this.showTilesLaidVertically(x, y, playerInput);
+    } else if (this.horizontal === true) {
+      return this.showTilesLaidHorizontally(x, y, playerInput);
+    }
+  };
+
+  BoardTile.prototype.showLaidTiles = function(x, y, playerInput) {
+    for (var i in playerInput) {
+      if (this.convert(x, y) === playerInput[i].position) { return true; }
+    }
   };
 
   BoardTile.prototype.showWhenOneTileLaid = function(x, y, playerInput) {
@@ -48,23 +67,27 @@ app.factory('boardTileFactory', function() {
   };
 
   BoardTile.prototype.showTilesLaidHorizontally = function(x, y, playerInput) {
-    var tile = playerInput[0].position;
-    tile = this.reverseConvert(tile);
+    var tile = this.reverseConvert(playerInput[0].position);
     if (this.eitherSide(tile, x, y) === true) { return 'board-tiles-active'; }
-    tile = _.last(playerInput).position;
-    tile = this.reverseConvert(tile);
+    tile = this.reverseConvert(_.last(playerInput).position);
     if (this.eitherSide(tile, x, y) === true) { return 'board-tiles-active'; }
     return 'board-tiles-inactive';
   };
 
   BoardTile.prototype.showTilesLaidVertically = function(x, y, playerInput) {
-    var tile = playerInput[0].position;
-    tile = this.reverseConvert(tile);
+    var tile = this.reverseConvert(playerInput[0].position);
     if (this.aboveOrBelow(tile, x, y) === true) { return 'board-tiles-active'; }
-    tile = _.last(playerInput).position;
-    tile = this.reverseConvert(tile);
+    tile = this.reverseConvert(_.last(playerInput).position);
     if (this.aboveOrBelow(tile, x, y) === true) { return 'board-tiles-active'; }
     return 'board-tiles-inactive';
+  };
+
+  BoardTile.prototype.eitherSide = function(tile, x, y) {
+    return this.oneTileToLeft(tile, x, y) || this.oneTileToRight(tile, x, y);
+  };
+
+  BoardTile.prototype.aboveOrBelow = function(tile, x, y) {
+    return this.oneTileAbove(tile, x, y) || this.oneTileBelow(tile, x, y);
   };
 
   BoardTile.prototype.oneTileAbove = function(tile, x, y) {
@@ -81,14 +104,6 @@ app.factory('boardTileFactory', function() {
 
   BoardTile.prototype.oneTileToRight = function(tile, x, y) {
     return tile[0] == x && tile[1] + 1 == y;
-  };
-
-  BoardTile.prototype.eitherSide = function(tile, x, y) {
-    return this.oneTileToLeft(tile, x, y) || this.oneTileToRight(tile, x, y);
-  };
-
-  BoardTile.prototype.aboveOrBelow = function(tile, x, y) {
-    return this.oneTileAbove(tile, x, y) || this.oneTileBelow(tile, x, y);
   };
 
   return BoardTile;
