@@ -6,7 +6,7 @@ describe('Scrabble Controller', function() {
 
   beforeEach(inject(function($controller) {
     ctrl = $controller('ScrabbleController');
-    ctrl.createBag();
+    ctrl.setup();
   }));
 
   it('is defined', function() {

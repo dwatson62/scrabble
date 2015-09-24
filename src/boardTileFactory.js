@@ -4,6 +4,15 @@ app.factory('boardTileFactory', function() {
     this.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
   };
 
+  BoardTile.prototype.setTile = function(x, y, board) {
+    if (x === 7 && y === 7) { return 'star'; }
+    var tile = board[this.convert(x, y)];
+    if (tile === null) { return; }
+    if (tile === undefined) { return 'empty'; }
+    if (tile.length === 1 || tile === 'blank') { return 'letter-' + tile; }
+    return tile;
+  };
+
   BoardTile.prototype.convert = function(x, y) {
     return this.letters[x] + String(y + 1);
   };
@@ -21,11 +30,10 @@ app.factory('boardTileFactory', function() {
         return 'board-tiles-active';
       }
     }
-
     if (playerInput.length === 1) {
       return this.showWhenOneTileLaid(x, y, playerInput);
     } else if (playerInput.length > 1) {
-      return this.showWhenMoreThanOneTileLaid(x, y, playerInput);
+      return this.showTilesLaidVertically(x, y, playerInput);
     }
     return 'board-tiles-active';
   };
@@ -33,13 +41,29 @@ app.factory('boardTileFactory', function() {
   BoardTile.prototype.showWhenOneTileLaid = function(x, y, playerInput) {
     var tile = playerInput[0].position;
     tile = this.reverseConvert(tile);
-    if (this.oneTileAbove(tile, x, y) ||
-      this.oneTileBelow(tile, x, y) ||
-      this.oneTileToLeft(tile, x , y) ||
-      this.oneTileToRight(tile, x, y)
-      ) {
+    if (this.eitherSide(tile, x , y) || this.aboveOrBelow(tile, x, y) ) {
       return 'board-tiles-active';
     }
+    return 'board-tiles-inactive';
+  };
+
+  BoardTile.prototype.showTilesLaidHorizontally = function(x, y, playerInput) {
+    var tile = playerInput[0].position;
+    tile = this.reverseConvert(tile);
+    if (this.eitherSide(tile, x, y) === true) { return 'board-tiles-active'; }
+    tile = _.last(playerInput).position;
+    tile = this.reverseConvert(tile);
+    if (this.eitherSide(tile, x, y) === true) { return 'board-tiles-active'; }
+    return 'board-tiles-inactive';
+  };
+
+  BoardTile.prototype.showTilesLaidVertically = function(x, y, playerInput) {
+    var tile = playerInput[0].position;
+    tile = this.reverseConvert(tile);
+    if (this.aboveOrBelow(tile, x, y) === true) { return 'board-tiles-active'; }
+    tile = _.last(playerInput).position;
+    tile = this.reverseConvert(tile);
+    if (this.aboveOrBelow(tile, x, y) === true) { return 'board-tiles-active'; }
     return 'board-tiles-inactive';
   };
 
@@ -59,22 +83,12 @@ app.factory('boardTileFactory', function() {
     return tile[0] == x && tile[1] + 1 == y;
   };
 
-  BoardTile.prototype.showWhenMoreThanOneTileLaid = function(x, y, playerInput) {
-    var tile = playerInput[0].position;
-    tile = this.reverseConvert(tile);
+  BoardTile.prototype.eitherSide = function(tile, x, y) {
+    return this.oneTileToLeft(tile, x, y) || this.oneTileToRight(tile, x, y);
+  };
 
-    if (this.oneTileToLeft(tile, x, y) ||
-      this.oneTileToRight(tile, x, y)
-      ) { return 'board-tiles-active'; }
-
-    tile = _.last(playerInput).position;
-    tile = this.reverseConvert(tile);
-
-    if (this.oneTileToLeft(tile, x, y) ||
-      this.oneTileToRight(tile, x, y)
-      ) { return 'board-tiles-active'; }
-
-    return 'board-tiles-inactive';
+  BoardTile.prototype.aboveOrBelow = function(tile, x, y) {
+    return this.oneTileAbove(tile, x, y) || this.oneTileBelow(tile, x, y);
   };
 
   return BoardTile;
