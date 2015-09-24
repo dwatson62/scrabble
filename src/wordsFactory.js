@@ -4,27 +4,16 @@ app.factory('wordsFactory', ['$http', function($http) {
 
   Words.prototype.checkValidLetters = function(word, playerLetters) {
     wordArray = word.split('');
-    this.checkLetters = _.clone(_.pluck(playerLetters, 'value'));
-    for (var i in wordArray) {
-      this.removeFirst(wordArray[i]);
+    var checkLetters = _.clone(playerLetters);
+    checkLetters = _.reject(checkLetters, function(letter) {
+      return letter.status === 'placed';
+    });
+    if (checkLetters.length === (7 - word.length)) {
+     return checkLetters;
     }
-    if (this.checkLetters.length === (7 - word.length)) {
-     return this.checkLetters;
-    }
+    // In case the player used letters they didn't have
+    // This should not happen though
     return false;
-  };
-
-  Words.prototype.removeFirst = function(letter) {
-    var blanks = 0;
-    for (var j in this.checkLetters) {
-      if (letter === this.checkLetters[j]) {
-        return this.checkLetters.splice(j, 1);
-      } else if (this.checkLetters[j] === 'blank') {
-        blanks ++;
-      }
-    }
-    if (blanks !== 0) { this.removeFirst('blank'); }
-    return this.checkLetters;
   };
 
   Words.prototype.createRequest = function(word) {
@@ -41,6 +30,19 @@ app.factory('wordsFactory', ['$http', function($http) {
       .groupBy(function(letter) { return letter.position.length; })
       .value();
     return _.flatten([ _.values(letters[2]), _.values(letters[3]) ]);
+  };
+
+  Words.prototype.addSelectedClass = function(letters, index) {
+    letters[index].status = 'selected';
+    return letters;
+  };
+
+  Words.prototype.addPlacedClass = function(letters) {
+    return _.each(letters, function(letter) {
+      if (letter.status === 'selected') {
+        letter.status = 'placed';
+      }
+    });
   };
 
   return Words;

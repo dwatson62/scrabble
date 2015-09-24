@@ -97,7 +97,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     if (self.player1Letters[index].status === 'placed') { return; }
     self.selected = self.player1Letters[index].value;
     self.removeSelectedClass();
-    self.player1Letters[index].status = 'selected';
+    self.addSelectedClass(index);
   };
 
   self.removeSelectedClass = function() {
@@ -108,12 +108,12 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     });
   };
 
+  self.addSelectedClass = function(index) {
+    self.player1Letters = wordService.addSelectedClass(self.player1Letters, index);
+  };
+
   self.addPlacedClass = function() {
-    _.map(self.player1Letters, function(letter) {
-      if (letter.status === 'selected') {
-        letter.status = 'placed';
-      }
-    });
+    self.player1Letters = wordService.addPlacedClass(self.player1Letters);
   };
 
   self.alreadyPlaced = function(index) {
@@ -137,7 +137,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   };
 
   self.showSelected = function(index) {
-    return self.player1Letters[index].status
+    return self.player1Letters[index].status;
   };
 
 }]);
