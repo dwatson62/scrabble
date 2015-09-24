@@ -38,7 +38,7 @@ app.factory('gameFactory', function() {
     for (i = 0; i < number; i ++) {
       var x = Math.floor((Math.random() * bag.length));
       var letter = bag.splice(x, 1).join();
-      currentLetters.push(letter);
+      currentLetters.push({ 'value': letter, 'status': 'ready' });
     }
     return currentLetters;
   };

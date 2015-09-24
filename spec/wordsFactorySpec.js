@@ -10,7 +10,7 @@ describe('Words Factory', function() {
 
   describe('Submitted words', function() {
 
-    var playerLetters = ['k', 'e', 'o', 'i', 'o', 'r', 't'];
+    var playerLetters = [{ 'value': 'p', 'status': 'ready' }, { 'value': 'k', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }, { 'value': 'i', 'status': 'ready' }, { 'value': 'e', 'status': 'ready' }, { 'value': 'r', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }];
 
     it('Knows when given invalid letters', function() {
       var verdict = wordService.checkValidLetters('skit', playerLetters);
@@ -19,27 +19,27 @@ describe('Words Factory', function() {
 
     it('Knows when given valid letters', function() {
       var verdict = wordService.checkValidLetters('kit', playerLetters);
-      expect(verdict).toEqual(['e', 'o', 'o', 'r']);
+      expect(verdict).toEqual([ 'p', 'e', 'r', 't' ]);
     });
 
     it('Correctly deletes selected letters', function() {
       wordService.checkValidLetters('kite', playerLetters);
-      expect(wordService.checkLetters).toEqual(['o', 'o', 'r']);
+      expect(wordService.checkLetters).toEqual([ 'p', 'r', 't' ]);
     });
 
     it('Correctly deletes selected letters when more than one', function() {
       wordService.checkValidLetters('keo', playerLetters);
-      expect(wordService.checkLetters).toEqual(['i', 'o', 'r', 't']);
+      expect(wordService.checkLetters).toEqual([ 'p', 't', 'i', 'r', 't' ]);
     });
 
     it('Correctly handles blank letters', function() {
       wordService.checkValidLetters('kite', playerLetters);
-      expect(wordService.checkLetters).toEqual(['o', 'o', 'r']);
+      expect(wordService.checkLetters).toEqual([ 'p', 'r', 't' ]);
     });
 
     it('Correctly handles two blank letters', function() {
       wordService.checkValidLetters('kite', playerLetters);
-      expect(wordService.checkLetters).toEqual(['o', 'o', 'r']);
+      expect(wordService.checkLetters).toEqual([ 'p', 'r', 't' ]);
     });
 
   });

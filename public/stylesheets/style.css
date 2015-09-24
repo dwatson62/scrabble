@@ -7,12 +7,16 @@ a {
   color: #00B7FF;
 }
 
-.letter-tile {
+.ready {
   opacity: 1;
 }
 
-.letter-tile-used {
+.selected {
   opacity: 0.5;
+}
+
+.placed {
+  opacity: 0.1;
 }
 
 .tg  {border-collapse:collapse;border-spacing:0;}

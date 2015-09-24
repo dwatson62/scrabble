@@ -21,6 +21,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   self.tile = function(x, y) {
     if (x === 7 && y === 7) { return 'star'; }
     var tile = self.boardDisplay[gameService.convert(x, y)];
+    if (tile === null) { return; }
     if (tile === undefined) { return 'empty'; }
     if (tile.length === 1 || tile === 'blank') { return 'letter-' + tile; }
     return tile;
@@ -92,29 +93,51 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     self.totalScore += points;
   };
 
-  self.selectLetter = function(letter) {
-    self.selected = letter;
+  self.selectLetter = function(index) {
+    if (self.player1Letters[index].status === 'placed') { return; }
+    self.selected = self.player1Letters[index].value;
+    self.removeSelectedClass();
+    self.player1Letters[index].status = 'selected';
+  };
+
+  self.removeSelectedClass = function() {
+    _.map(self.player1Letters, function(letter) {
+      if (letter.status === 'selected') {
+        letter.status = 'ready';
+      }
+    });
+  };
+
+  self.addPlacedClass = function() {
+    _.map(self.player1Letters, function(letter) {
+      if (letter.status === 'selected') {
+        letter.status = 'placed';
+      }
+    });
+  };
+
+  self.alreadyPlaced = function(index) {
+    return self.player1Letters[index] === 'placed';
   };
 
   self.selectTile = function(x, y) {
     var tile = gameService.convert(x, y);
-
+    self.addPlacedClass();
           // Checks if already occupied
     if (_.values(self.board[tile]).length === 1) { return; }
 
     self.boardDisplay[tile] = self.selected;
     self.input.push({ 'letter': self.selected, 'position': tile });
     self.organiseInput();
+    self.selected = null;
   };
 
   self.organiseInput = function() {
     self.input = wordService.organiseInput(self.input);
   };
 
-  self.showSelected = function(letter) {
-    for (var i in self.input) {
-      if (self.input[i] === letter) { return 'letter-tile-used'; }
-    }
+  self.showSelected = function(index) {
+    return self.player1Letters[index].status
   };
 
 }]);

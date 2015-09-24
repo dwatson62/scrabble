@@ -4,7 +4,7 @@ app.factory('wordsFactory', ['$http', function($http) {
 
   Words.prototype.checkValidLetters = function(word, playerLetters) {
     wordArray = word.split('');
-    this.checkLetters = _.clone(playerLetters);
+    this.checkLetters = _.clone(_.pluck(playerLetters, 'value'));
     for (var i in wordArray) {
       this.removeFirst(wordArray[i]);
     }

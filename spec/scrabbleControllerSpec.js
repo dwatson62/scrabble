@@ -55,22 +55,23 @@ describe('Scrabble Controller', function() {
 
     beforeEach(function() {
       ctrl.setup();
+      ctrl.player1Letters = [{ 'value': 'p', 'status': 'ready' }, { 'value': 'u', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }, { 'value': 'i', 'status': 'ready' }, { 'value': 'o', 'status': 'ready' }, { 'value': 'r', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }];
     });
 
-    placeLetter = function(letter, x, y) {
-      ctrl.selectLetter(letter);
+    placeLetter = function(index, x, y) {
+      ctrl.selectLetter(index);
       ctrl.selectTile(x, y);
     };
 
     it('Can place a single letter on board', function() {
-      placeLetter('i', 1, 0);
+      placeLetter(3, 1, 0);
       expect(ctrl.input).toEqual([{ letter: 'i', position: 'B1' }]);
     });
 
     it('Can place many letters on the board', function() {
-      placeLetter('p', 1, 0);
-      placeLetter('u', 1, 1);
-      placeLetter('t', 1, 2);
+      placeLetter(0, 1, 0);
+      placeLetter(1, 1, 1);
+      placeLetter(2, 1, 2);
       expect(ctrl.input).toEqual([{ letter: 'p', position: 'B1' },
                                   { letter: 'u', position: 'B2' },
                                   { letter: 't', position: 'B3' }
@@ -78,9 +79,9 @@ describe('Scrabble Controller', function() {
     });
 
     it('When placed out of order, it can sort them correctly', function() {
-      placeLetter('p', 1, 0);
-      placeLetter('t', 1, 2);
-      placeLetter('u', 1, 1);
+      placeLetter(0, 1, 0);
+      placeLetter(2, 1, 2);
+      placeLetter(1, 1, 1);
       expect(ctrl.input).toEqual([{ letter: 'p', position: 'B1' },
                                   { letter: 'u', position: 'B2' },
                                   { letter: 't', position: 'B3' }
@@ -88,9 +89,9 @@ describe('Scrabble Controller', function() {
     });
 
     it('When placed out of order, near edge of board it can sort them correctly', function() {
-      placeLetter('p', 1, 8);
-      placeLetter('t', 1, 10);
-      placeLetter('u', 1, 9);
+      placeLetter(0, 1, 8);
+      placeLetter(2, 1, 10);
+      placeLetter(1, 1, 9);
       expect(ctrl.input).toEqual([{ letter: 'p', position: 'B9' },
                                   { letter: 'u', position: 'B10' },
                                   { letter: 't', position: 'B11' }
@@ -98,9 +99,9 @@ describe('Scrabble Controller', function() {
     });
 
     it('When placed all over the place it can sort them correctly', function() {
-      placeLetter('p', 9, 8);
-      placeLetter('t', 11, 8);
-      placeLetter('u', 10, 8);
+      placeLetter(0, 9, 8);
+      placeLetter(2, 11, 8);
+      placeLetter(1, 10, 8);
       expect(ctrl.input).toEqual([{ letter: 'p', position: 'J9' },
                                   { letter: 'u', position: 'K9' },
                                   { letter: 't', position: 'M9' }
@@ -111,6 +112,11 @@ describe('Scrabble Controller', function() {
 
   describe('Receiving letters', function() {
 
+    beforeEach(function() {
+      ctrl.setup();
+      ctrl.player1Letters = [{ 'value': 'p', 'status': 'ready' }, { 'value': 'u', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }, { 'value': 'i', 'status': 'ready' }, { 'value': 'o', 'status': 'ready' }, { 'value': 'r', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }];
+    });
+
     it('player starts with 7 letters', function() {
       ctrl.distributeNewLetters();
       expect(ctrl.player1Letters.length).toEqual(7);
@@ -119,16 +125,14 @@ describe('Scrabble Controller', function() {
     it('after a correct word, player replaces letters to always have 7', function() {
       var word = 'eat';
       var definition = 'To take into the body by the mouth for digestion or absorption.';
-      ctrl.player1Letters = ['e', 'a', 't', 'i', 'o', 'r', 't'];
       ctrl.checkLetters = ['i', 'o', 'r', 't'];
       ctrl.isAWord(word, definition);
       expect(ctrl.player1Letters.length).toEqual(7);
     });
 
     it('after an incorrect word, player keeps the same letters', function() {
-      ctrl.player1Letters = ['c', 'a', 's', 'i', 'o', 'r', 't'];
-      ctrl.notAWord('cas');
-      expect(ctrl.player1Letters).toEqual(['c', 'a', 's', 'i', 'o', 'r', 't']);
+      ctrl.notAWord('pti');
+      expect(_.pluck(ctrl.player1Letters, 'value')).toEqual([ 'p', 'u', 't', 'i', 'o', 'r', 't' ]);
     });
 
   });
