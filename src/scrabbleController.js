@@ -14,7 +14,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
 
   self.setup = function() {
     self.createBag();
-    self.distributeLetters();
+    self.distributeNewLetters();
     self.setupBoard();
   };
 
@@ -41,22 +41,21 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     self.bag = gameService.createBag();
   };
 
-  self.distributeLetters = function() {
+  self.distributeNewLetters = function() {
     self.player1Letters = gameService.distributeLetters(self.player1Letters, self.bag);
   };
 
   self.playWord = function() {
     var word = _.pluck(self.input, 'letter').join('');
-    var valid = wordService.checkValidLetters(word, self.player1Letters);
-    if (valid === false) {
+    self.checkLetters = wordService.checkValidLetters(word, self.player1Letters);
+    if (self.checkLetters === false) {
       return self.resetRound();
     }
-    self.checkLetters = valid;
     var request = wordService.createRequest(word);
     self.sendRequest(request, word);
   };
 
-  self.sendRequest = function(request, word, valid) {
+  self.sendRequest = function(request, word) {
     $http.get(request).
       then(function(response) {
         if (response.data.length === 0) { return self.notAWord(word); }
@@ -77,9 +76,13 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   self.isAWord = function(word, definition) {
     self.definitions.push({ 'word': word, 'text': definition });
     self.getPoints(word);
-    self.player1Letters = self.checkLetters;
-    self.distributeLetters();
+    self.updateLetters();
     self.input = [];
+  };
+
+  self.updateLetters = function() {
+    self.player1Letters = self.checkLetters;
+    self.distributeNewLetters();
   };
 
   self.removeTileFromDisplay = function() {
@@ -106,11 +109,19 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     self.boardDisplay[tile] = self.selected;
     self.input.push({ 'letter': self.selected, 'position': tile });
     self.organiseInput();
-    console.log(_.pluck(self.input, 'letter'));
+    // console.log(_.pluck(self.input, 'letter'));
   };
 
   self.organiseInput = function() {
-    self.input = _.sortBy(self.input, 'position');
+    self.input = _.groupBy(self.input, function(num) {
+      return num.position.length;
+    });
+    var newArray = [];
+    newArray.push(_.sortBy(self.input[2], 'position'));
+    if (self.input[3] !== undefined) {
+      newArray.push(_.sortBy(self.input[3], 'position'));
+    }
+    self.input = _.flatten(newArray);
   };
 
   self.showSelected = function(letter) {
