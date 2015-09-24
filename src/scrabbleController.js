@@ -124,6 +124,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
 
   self.selectTile = function(x, y) {
     if (self.selected == null) { return; }
+    if (self.disabledTile(x, y) === true) { return; }
     var tile = boardTileService.convert(x, y);
 
           // Checks if already occupied
@@ -150,5 +151,17 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     return boardTileService.showBoardTiles(x, y, self.input);
   };
 
+  self.disabledTile = function(x, y) {
+    var boardClass = self.showBoardTiles(x, y);
+    if (boardClass === 'board-tiles-inactive') {
+      return true;
+    }
+  };
+
+  self.clear = function() {
+    self.removeTileFromDisplay();
+    self.removePlacedClass();
+    self.input = [];
+  };
 
 }]);

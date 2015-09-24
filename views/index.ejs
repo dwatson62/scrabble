@@ -20,7 +20,8 @@
     <center>
       <h1>Scrabble</h1>
     </center>
-    <button ng-click='scrbCtrl.playWord()'>Play Word</button>
+    <button ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.playWord()'>Play Word</button>
+    <button ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.clear()'>Clear</button>
     <div ng-model='scrbCtrl.points'>
       Total: {{ scrbCtrl.totalScore }}
     </div>
