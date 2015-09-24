@@ -31,23 +31,31 @@ app.factory('boardTileFactory', function() {
     return splitTile;
   };
 
+  // BoardTile.prototype.showStartingTile = function(x, y) {
+  //   if (x === 7 && y === 7) {
+  //     return 'board-tiles-active';
+  //   }
+  //   return 'board-tiles-inactive';
+  // };
+
   BoardTile.prototype.showBoardTiles = function(x, y, playerInput) {
-    if (playerInput.length === 1) {
-      return this.showWhenOneTileLaid(x, y, playerInput);
-    } else if (this.horizontal === false && this.vertical === false) {
-      // need to calculate if letters are being laid horizontal or vertical
-      var tile = this.reverseConvert(playerInput[0].position);
-      var tile2 = this.reverseConvert(playerInput[1].position);
-      if (this.aboveOrBelow(tile, tile2[0], tile2[1]) === true) {
-        this.vertical = true;
-      } else if (this.eitherSide(tile, x, y) === true) {
-        this.horizontal = true;
-      }
+    if (this.horizontal === false && this.vertical === false) {
+      this.determineDirection(playerInput);
     }
     if (this.vertical === true) {
       return this.showTilesLaidVertically(x, y, playerInput);
     } else if (this.horizontal === true) {
       return this.showTilesLaidHorizontally(x, y, playerInput);
+    }
+  };
+
+  BoardTile.prototype.determineDirection = function(playerInput) {
+    var tile = this.reverseConvert(playerInput[0].position);
+    var tile2 = this.reverseConvert(playerInput[1].position);
+    if (this.aboveOrBelow(tile, tile2[0], tile2[1]) === true) {
+      this.vertical = true;
+    } else if (this.eitherSide(tile, tile2[0], tile2[1]) === true) {
+      this.horizontal = true;
     }
   };
 

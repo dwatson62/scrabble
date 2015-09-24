@@ -13,8 +13,7 @@ describe('BoardTile Factory', function() {
   });
 
   it('Can reverse convert a tile into array coords', function() {
-    var coords = boardTile.reverseConvert('A1');
-    expect(coords).toEqual([0, 0]);
+    expect(boardTile.reverseConvert('A1')).toEqual([0, 0]);
   });
 
 });

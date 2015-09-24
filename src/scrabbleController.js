@@ -61,9 +61,15 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
           // Display board tiles at correct opacity
 
   self.showBoardTiles = function(x, y) {
-    if (self.input.length === 0) { return 'board-tiles-active'; }
+    // if (self.totalScore === 0 && self.input.length === 0) {
+    //   return boardTileService.showStartingTile(x, y);
+    // }
     if (boardTileService.showLaidTiles(x, y, self.input) === true) {
       return 'board-tiles-active';
+    }
+    if (self.input.length === 0) { return 'board-tiles-active'; }
+    if (self.input.length === 1) {
+      return boardTileService.showWhenOneTileLaid(x, y, self.input);
     }
     return boardTileService.showBoardTiles(x, y, self.input);
   };
@@ -131,6 +137,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     self.getPoints(word);
     self.updateLetters();
     self.input = [];
+    boardTileService.resetDirection();
   };
 
   self.updateLetters = function() {
