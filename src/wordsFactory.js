@@ -3,7 +3,6 @@ app.factory('wordsFactory', ['$http', function($http) {
   var Words = function() {};
 
   Words.prototype.checkValidLetters = function(word, playerLetters) {
-    wordArray = word.split('');
     var checkLetters = _.clone(playerLetters);
     checkLetters = _.reject(checkLetters, function(letter) {
       return letter.status === 'placed';
@@ -41,6 +40,14 @@ app.factory('wordsFactory', ['$http', function($http) {
     return _.each(letters, function(letter) {
       if (letter.status === 'selected') {
         letter.status = 'placed';
+      }
+    });
+  };
+
+  Words.prototype.removeSelectedClass = function(letters) {
+    return _.each(letters, function(letter) {
+      if (letter.status === 'selected') {
+        letter.status = 'ready';
       }
     });
   };

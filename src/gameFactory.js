@@ -48,6 +48,24 @@ app.factory('gameFactory', function() {
     return letters[x] + String(y + 1);
   };
 
+  Game.prototype.reverseConvert = function(tile) {
+    var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
+    var result = this.splitTile(tile);
+    result[0] = _.indexOf(letters, result[0]);
+    result[1] = parseInt(result[1]) - 1;
+    return result;
+  };
+
+  Game.prototype.splitTile = function(tile) {
+    // var result = [];
+    // if (_.contains(tile, '10')) {
+    //   result[0] = tile.charAt(0);
+    //   result[1] = '10';
+    //   return result;
+    // }
+    return tile.split('');
+  };
+
   return Game;
 
 });

@@ -40,7 +40,7 @@
             <td class="tg-031e">
               <div>
                 <center>
-                  <img id='img<%= x %>-<%= y %>' ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}.png' height="40" ng-click='scrbCtrl.selectTile(<%= x %>, <%= y %>)'>
+                  <img ng-class='scrbCtrl.showBoardTiles(<%= x %>, <%= y %>)' id='img<%= x %>-<%= y %>' ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}.png' height="40" ng-click='scrbCtrl.selectTile(<%= x %>, <%= y %>)'>
                 </center>
               </div>
             </td>

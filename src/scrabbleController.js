@@ -101,11 +101,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   };
 
   self.removeSelectedClass = function() {
-    _.map(self.player1Letters, function(letter) {
-      if (letter.status === 'selected') {
-        letter.status = 'ready';
-      }
-    });
+    self.player1Letters = wordService.removeSelectedClass(self.player1Letters);
   };
 
   self.addSelectedClass = function(index) {
@@ -121,6 +117,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   };
 
   self.selectTile = function(x, y) {
+    if (self.selected == null) { return; }
     var tile = gameService.convert(x, y);
     self.addPlacedClass();
           // Checks if already occupied
@@ -138,6 +135,67 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
 
   self.showSelected = function(index) {
     return self.player1Letters[index].status;
+  };
+
+  self.showBoardTiles = function(x, y) {
+    for (var i in self.input) {
+      if (gameService.convert(x, y) === self.input[i].position) {
+        return 'board-tiles-active';
+      }
+    }
+    if (self.input.length === 1) {
+      return self.showWhenOneTileLaid(x, y);
+    } else if (self.input.length > 1) {
+      return self.showWhenMoreThanOneTileLaid(x, y);
+    }
+    return 'board-tiles-inactive';
+  };
+
+  self.showWhenOneTileLaid = function(x, y) {
+    var tile = self.input[0].position;
+    tile = gameService.reverseConvert(tile);
+    if (self.oneTileAbove(tile, x, y) ||
+      self.oneTileBelow(tile, x, y) ||
+      self.oneTileToLeft(tile, x , y) ||
+      self.oneTileToRight(tile, x, y)
+      ) {
+      return 'board-tiles-active';
+    }
+    return 'board-tiles-inactive';
+  };
+
+  self.oneTileAbove = function(tile, x, y) {
+    return tile[0] - 1 == x && tile[1] == y;
+  };
+
+  self.oneTileBelow = function(tile, x, y) {
+    return tile[0] + 1 == x && tile[1] == y;
+  };
+
+  self.oneTileToLeft = function(tile, x, y) {
+    return tile[0] == x && tile[1] - 1 == y;
+  };
+
+  self.oneTileToRight = function(tile, x, y) {
+    return tile[0] == x && tile[1] + 1 == y;
+  };
+
+  self.showWhenMoreThanOneTileLaid = function(x, y) {
+    var tile = self.input[0].position;
+    tile = gameService.reverseConvert(tile);
+
+    if (self.oneTileToLeft(tile, x, y) ||
+      self.oneTileToRight(tile, x, y)
+      ) { return 'board-tiles-active'; }
+
+    tile = _.last(self.input).position;
+    tile = gameService.reverseConvert(tile);
+
+    if (self.oneTileToLeft(tile, x, y) ||
+      self.oneTileToRight(tile, x, y)
+      ) { return 'board-tiles-active'; }
+
+    return 'board-tiles-inactive';
   };
 
 }]);
