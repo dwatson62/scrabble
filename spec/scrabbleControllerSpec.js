@@ -30,19 +30,12 @@ describe('Scrabble Controller', function() {
 
   describe('History', function() {
 
-    it('Keeps a definition history of played words', function() {
+    it('Keeps a history of played words', function() {
       var word = 'eat';
       var definition = 'To take into the body by the mouth for digestion or absorption.';
-      ctrl.checkLetters = ['i', 'o', 'r', 't'];
-      ctrl.isAWord(word, definition);
-      expect(ctrl.definitions[0]).toEqual({ 'word': word, 'text': definition});
-    });
-
-    it('Keeps a points history of played words', function() {
-      var word = 'eat';
       ctrl.player1Letters = ['k', 'e', 'o', 'i', 'o', 'r', 't'];
-      ctrl.getPoints(word);
-      expect(ctrl.history[0]).toEqual({ 'word': word, 'points': 3});
+      ctrl.getPoints(word, definition);
+      expect(ctrl.history[0]).toEqual({ 'word': word, 'points': 3, 'definition': definition });
     });
 
   });

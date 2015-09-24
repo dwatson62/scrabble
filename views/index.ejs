@@ -25,11 +25,8 @@
     <div ng-model='scrbCtrl.points'>
       Total: {{ scrbCtrl.totalScore }}
     </div>
-    <div ng-repeat='definition in scrbCtrl.definitions | orderBy:"-"'>
-      <li> {{ definition.word }} - {{ definition.text }} </li>
-    </div>
     <div ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
-      <li> {{ history.word }} - {{ history.points }} </li>
+      <li> {{ history.word }} - {{ history.definition }} - {{ history.points }} points</li>
     </div>
     <br>
     <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">

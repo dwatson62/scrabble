@@ -2,7 +2,6 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
 
   var self = this;
 
-  self.definitions = [];
   self.input = [];
   self.player1Letters = [];
   self.history = [];
@@ -128,13 +127,12 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   };
 
   self.notAWord = function(word) {
-    self.definitions.push({ 'word': word, 'text': 'Not a word!' });
+    self.history.push({ 'word': word, 'points': 0, 'definition': 'Not a word!' });
     self.resetRound();
   };
 
   self.isAWord = function(word, definition) {
-    self.definitions.push({ 'word': word, 'text': definition });
-    self.getPoints(word);
+    self.getPoints(word, definition);
     self.updateLetters();
     self.input = [];
     boardTileService.resetDirection();
@@ -145,9 +143,9 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     self.distributeNewLetters();
   };
 
-  self.getPoints = function(word) {
+  self.getPoints = function(word, definition) {
     var points = pointService.getPoints(word);
-    self.history.push( { 'word': word, 'points': points } );
+    self.history.push( { 'word': word, 'points': points, 'definition': definition } );
     self.totalScore += points;
   };
 
