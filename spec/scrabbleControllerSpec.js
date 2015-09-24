@@ -13,10 +13,6 @@ describe('Scrabble Controller', function() {
     expect(ctrl).toBeDefined();
   });
 
-  it('creates a bag of letters', function() {
-    expect(ctrl.bag.length).toEqual(100);
-  });
-
   describe('Points', function() {
 
     it('Scores correct points for a word', function() {

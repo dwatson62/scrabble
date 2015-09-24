@@ -8,9 +8,8 @@ describe('Game Factory', function() {
     gameService = new gameFactory();
   }));
 
-  it('Can reverse convert a tile into array coords', function() {
-    var coords = gameService.reverseConvert('A1');
-    expect(coords).toEqual([0, 0]);
+  it('creates a bag of letters', function() {
+    expect(gameService.createBag().length).toEqual(100);
   });
 
 });
