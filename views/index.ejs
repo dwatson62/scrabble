@@ -13,39 +13,33 @@
     <script src='src/pointsFactory.js'></script>
     <script src='src/wordsFactory.js'></script>
     <script src='src/scrabbleController.js'></script>
+    <script src='src/letters.js'></script>
     <script src='secrets/secrets.js'></script>
-    <script src='secrets/letters.js'></script>
   </head>
   <body ng-controller='ScrabbleController as scrbCtrl' ng-init='scrbCtrl.setup()'>
     <center>
       <h1>Scrabble</h1>
     </center>
-    <button ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.playWord()'>Play Word</button>
-    <button ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.clear()'>Clear</button>
-    <div ng-model='scrbCtrl.points'>
-      Total: {{ scrbCtrl.totalScore }}
+    <div class='container'>
+      <div class="row">
+        <div class="col-md-8">
+          <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">
+            <img ng-class='scrbCtrl.showSelected($index)' id='letter-{{ letter.value }}' ng-src="/images/tiles/letter-{{ letter.value }}.png" height="60" ng-click='scrbCtrl.selectLetter($index)'>
+          </div>
+          <% include board %>
+        </div>
+        <div class="col-md-4">
+          <button id='play-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.playWord()'>Play Word</button>
+          <button id='clear-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.clear()'>Clear</button>
+          <br>
+          <div ng-model='scrbCtrl.points'>
+            Total: {{ scrbCtrl.totalScore }}
+          </div>
+          <div ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
+            <li> {{ history.word }} - {{ history.definition }} - {{ history.points }} points</li>
+          </div>
+        </div>
+      </div>
     </div>
-    <div ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
-      <li> {{ history.word }} - {{ history.definition }} - {{ history.points }} points</li>
-    </div>
-    <br>
-    <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">
-      <img ng-class='scrbCtrl.showSelected($index)' id='letter-{{ letter.value }}' ng-src="/images/tiles/letter-{{ letter.value }}.png" height="60" ng-click='scrbCtrl.selectLetter($index)'>
-    </div>
-    <table class="tg">
-      <% for (x = 0; x < 14; x ++) { %>
-        <tr>
-          <% for (y = 0; y < 15; y ++) { %>
-            <td class="tg-031e">
-              <div>
-                <center>
-                  <img ng-class='scrbCtrl.showBoardTiles(<%= x %>, <%= y %>)' id='img<%= x %>-<%= y %>' ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}.png' height="40" ng-click='scrbCtrl.selectTile(<%= x %>, <%= y %>)'>
-                </center>
-              </div>
-            </td>
-          <% } %>
-        </tr>
-      <% } %>
-    </table>
   </body>
 </html>

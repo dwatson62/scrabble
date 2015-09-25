@@ -22,6 +22,10 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   };
 
   self.distributeNewLetters = function() {
+    if (self.bag.length < (7 - self.player1Letters.length)) {
+      console.log('Game Over!');
+      return;
+    }
     self.player1Letters = gameService.distributeLetters(self.player1Letters, self.bag);
   };
 
@@ -31,10 +35,14 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     return boardTileService.setTile(x, y, self.boardDisplay);
   };
 
-          // Displaying player tiles at correct opacity
+          // Displaying player letters at correct opacity
 
   self.showSelected = function(index) {
     return self.player1Letters[index].status;
+  };
+
+  self.alreadyPlaced = function(index) {
+    return self.player1Letters[index] === 'placed';
   };
 
   self.removeSelectedClass = function() {
@@ -51,10 +59,6 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
 
   self.addPlacedClass = function() {
     self.player1Letters = wordService.addPlacedClass(self.player1Letters);
-  };
-
-  self.alreadyPlaced = function(index) {
-    return self.player1Letters[index] === 'placed';
   };
 
           // Display board tiles at correct opacity

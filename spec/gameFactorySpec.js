@@ -9,7 +9,9 @@ describe('Game Factory', function() {
   }));
 
   it('creates a bag of letters', function() {
-    expect(gameService.createBag().length).toEqual(100);
+    // without blanks
+    expect(gameService.createBag().length).toEqual(98);
+    // expect(gameService.createBag().length).toEqual(100);
   });
 
 });
