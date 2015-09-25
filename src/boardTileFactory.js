@@ -75,43 +75,43 @@ app.factory('boardTileFactory', function() {
   };
 
   BoardTile.prototype.showTilesLaidHorizontally = function(x, y, playerInput) {
-    var tile = this.reverseConvert(playerInput[0].position);
-    if (this.eitherSide(tile, x, y) === true) { return 'board-tiles-active'; }
-    tile = this.reverseConvert(_.last(playerInput).position);
-    if (this.eitherSide(tile, x, y) === true) { return 'board-tiles-active'; }
+    var originalTile = this.reverseConvert(playerInput[0].position);
+    if (this.eitherSide(originalTile, x, y) === true) { return 'board-tiles-active'; }
+    originalTile = this.reverseConvert(_.last(playerInput).position);
+    if (this.eitherSide(originalTile, x, y) === true) { return 'board-tiles-active'; }
     return 'board-tiles-inactive';
   };
 
   BoardTile.prototype.showTilesLaidVertically = function(x, y, playerInput) {
-    var tile = this.reverseConvert(playerInput[0].position);
-    if (this.aboveOrBelow(tile, x, y) === true) { return 'board-tiles-active'; }
-    tile = this.reverseConvert(_.last(playerInput).position);
-    if (this.aboveOrBelow(tile, x, y) === true) { return 'board-tiles-active'; }
+    var originalTile = this.reverseConvert(playerInput[0].position);
+    if (this.aboveOrBelow(originalTile, x, y) === true) { return 'board-tiles-active'; }
+    originalTile = this.reverseConvert(_.last(playerInput).position);
+    if (this.aboveOrBelow(originalTile, x, y) === true) { return 'board-tiles-active'; }
     return 'board-tiles-inactive';
   };
 
-  BoardTile.prototype.eitherSide = function(tile, x, y) {
-    return this.oneTileToLeft(tile, x, y) || this.oneTileToRight(tile, x, y);
+  BoardTile.prototype.eitherSide = function(originalTile, x, y) {
+    return this.oneTileToLeft(originalTile, x, y) || this.oneTileToRight(originalTile, x, y);
   };
 
-  BoardTile.prototype.aboveOrBelow = function(tile, x, y) {
-    return this.oneTileAbove(tile, x, y) || this.oneTileBelow(tile, x, y);
+  BoardTile.prototype.aboveOrBelow = function(originalTile, x, y) {
+    return this.oneTileAbove(originalTile, x, y) || this.oneTileBelow(originalTile, x, y);
   };
 
-  BoardTile.prototype.oneTileAbove = function(tile, x, y) {
-    return tile[0] - 1 == x && tile[1] == y;
+  BoardTile.prototype.oneTileAbove = function(originalTile, x, y) {
+    return originalTile[0] - 1 == x && originalTile[1] == y;
   };
 
-  BoardTile.prototype.oneTileBelow = function(tile, x, y) {
-    return tile[0] + 1 == x && tile[1] == y;
+  BoardTile.prototype.oneTileBelow = function(originalTile, x, y) {
+    return originalTile[0] + 1 == x && originalTile[1] == y;
   };
 
-  BoardTile.prototype.oneTileToLeft = function(tile, x, y) {
-    return tile[0] == x && tile[1] - 1 == y;
+  BoardTile.prototype.oneTileToLeft = function(originalTile, x, y) {
+    return originalTile[0] == x && originalTile[1] - 1 == y;
   };
 
-  BoardTile.prototype.oneTileToRight = function(tile, x, y) {
-    return tile[0] == x && tile[1] + 1 == y;
+  BoardTile.prototype.oneTileToRight = function(originalTile, x, y) {
+    return originalTile[0] == x && originalTile[1] + 1 == y;
   };
 
   return BoardTile;
