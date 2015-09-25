@@ -20,7 +20,6 @@ module.exports = function(config) {
         'bower_components/jquery/dist/jquery.js',
         'bower_components/jquery-ui/jquery-ui.js',
         'bower_components/underscore/underscore.js',
-        'secrets/letters.js',
         'src/*.js',
         'spec/*.js'
     ],
@@ -67,6 +66,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: true
   })
 }
