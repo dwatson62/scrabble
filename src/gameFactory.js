@@ -63,7 +63,9 @@ app.factory('gameFactory', function() {
       var letter = input[i].letter;
       total += (letterValues[letter].points * currentBonuses[1]);
     }
-    return total * currentBonuses[0];
+    total *= currentBonuses[0];
+    if (input.length === 7) { total += 50; }
+    return total;
   };
 
   Game.prototype.getBonuses = function(position, currentBonuses) {

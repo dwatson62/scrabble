@@ -74,6 +74,17 @@ describe('Game Factory', function() {
       expect(gameService.getPoints(word)).toEqual(27);
     });
 
+    it('laying all seven tiles gives extra 50 point bonus', function() {
+      var word = [{ letter: 'c', position: 'A1' },
+                          { letter: 'o', position: 'A2' },
+                          { letter: 'm', position: 'A3' },
+                          { letter: 'p', position: 'A4' },
+                          { letter: 'u', position: 'A5' },
+                          { letter: 't', position: 'A6' },
+                          { letter: 'e', position: 'A7' }];
+      expect(gameService.getPoints(word)).toEqual(98)
+    });
+
   });
 
 
