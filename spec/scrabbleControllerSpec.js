@@ -124,6 +124,15 @@ describe('Scrabble Controller', function() {
       expect(_.pluck(ctrl.player1Letters, 'value')).toEqual([ 'p', 'u', 't', 'i', 'o', 'r', 't' ]);
     });
 
+    it('player can swap an unwanted letter for a random one', function() {
+      ctrl.selectLetter(0);
+      ctrl.swapLetter();
+      // Letter p gets deleted, and other letters shift one place to left
+      expect(ctrl.player1Letters[0].value).toEqual('u');
+      // Player has seven letters, but could get the same letter back
+      expect(ctrl.player1Letters.length).toEqual(7);
+    });
+
   });
 
 });

@@ -5,6 +5,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   self.input = [];
   self.player1Letters = [];
   self.history = [];
+  self.selected = null;
   self.totalScore = 0;
 
   var boardTileService = new boardTileFactory();
@@ -61,6 +62,10 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     self.player1Letters = wordService.addPlacedClass(self.player1Letters);
   };
 
+  self.findSelected = function() {
+    return _.indexOf(_.pluck(self.player1Letters, 'status'), 'selected');
+  };
+
           // Display board tiles at correct opacity
 
   self.showBoardTiles = function(x, y) {
@@ -110,6 +115,12 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
 
   self.organiseInput = function() {
     self.input = wordService.organiseInput(self.input);
+  };
+
+  self.swapLetter = function() {
+    var index = self.findSelected();
+    self.player1Letters = gameService.swapLetter(self.player1Letters, self.bag, index);
+    self.selected = null;
   };
 
           // Playing the word

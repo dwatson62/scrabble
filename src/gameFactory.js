@@ -45,6 +45,12 @@ app.factory('gameFactory', function() {
     return currentLetters;
   };
 
+  Game.prototype.swapLetter = function(currentLetters, bag, index) {
+    currentLetters.splice(index, 1);
+    currentLetters = this.distributeLetters(currentLetters, bag);
+    return currentLetters;
+  };
+
   return Game;
 
 });

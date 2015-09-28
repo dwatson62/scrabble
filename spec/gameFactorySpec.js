@@ -3,9 +3,11 @@ describe('Game Factory', function() {
   beforeEach(module('ScrabbleApp'));
 
   var wordService;
+  var bag;
 
   beforeEach(inject(function(gameFactory) {
     gameService = new gameFactory();
+    bag = gameService.createBag();
   }));
 
   it('creates a bag of letters', function() {
@@ -15,7 +17,6 @@ describe('Game Factory', function() {
   });
 
   it('bag of letters is shuffled', function() {
-    var bag = gameService.createBag();
     var sorted = _.clone(bag).sort();
     expect(bag).not.toEqual(sorted);
   });
@@ -26,14 +27,19 @@ describe('Game Factory', function() {
 
   it('distributes 7 letters when player has none', function() {
     var currentLetters = [];
-    var bag = gameService.createBag();
     expect(gameService.distributeLetters(currentLetters, bag).length).toEqual(7);
   });
 
   it('distributes enough letters so player always has 7', function() {
     var currentLetters = ['a', 'b', 'c'];
-    var bag = gameService.createBag();
     expect(gameService.distributeLetters(currentLetters, bag).length).toEqual(7);
+  });
+
+  it('can swap a single letter', function() {
+    var currentLetters = [{ 'value': 'p', 'status': 'ready' }, { 'value': 'u', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }, { 'value': 'i', 'status': 'ready' }, { 'value': 'o', 'status': 'ready' }, { 'value': 'r', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }];
+
+    var newLetters = gameService.swapLetter(currentLetters, bag, 1);
+    expect(newLetters[1]).not.toEqual('p');
   });
 
 });
