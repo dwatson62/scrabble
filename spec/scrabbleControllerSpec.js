@@ -7,7 +7,26 @@ describe('Scrabble Controller', function() {
   beforeEach(inject(function($controller) {
     ctrl = $controller('ScrabbleController');
     ctrl.setup();
+    ctrl.player1Letters = [{ 'value': 'p', 'status': 'ready' },
+                          { 'value': 'u', 'status': 'ready' },
+                          { 'value': 't', 'status': 'ready' },
+                          { 'value': 'i', 'status': 'ready' },
+                          { 'value': 'o', 'status': 'ready' },
+                          { 'value': 'r', 'status': 'ready' },
+                          { 'value': 't', 'status': 'ready' }];
   }));
+
+  placeLetter = function(index, x, y) {
+    ctrl.selectLetter(index);
+    ctrl.selectTile(x, y);
+  };
+
+  placeTripWord = function() {
+    placeLetter(2, 4, 0);
+    placeLetter(5, 4, 1);
+    placeLetter(3, 4, 2);
+    placeLetter(0, 4, 3);
+  };
 
   it('is defined', function() {
     expect(ctrl).toBeDefined();
@@ -16,14 +35,9 @@ describe('Scrabble Controller', function() {
   describe('Points', function() {
 
     it('Scores correct points for a word', function() {
-      ctrl.getPoints('kite');
-      expect(ctrl.totalScore).toEqual(8);
-    });
-
-    it('Keeps record of total score', function() {
-      ctrl.getPoints('kite');
-      ctrl.getPoints('fly');
-      expect(ctrl.totalScore).toEqual(17);
+      placeTripWord();
+      ctrl.getPoints('trip', 'definition');
+      expect(ctrl.totalScore).toEqual(6);
     });
 
   });
@@ -31,26 +45,14 @@ describe('Scrabble Controller', function() {
   describe('History', function() {
 
     it('Keeps a history of played words', function() {
-      var word = 'eat';
-      var definition = 'To take into the body by the mouth for digestion or absorption.';
-      ctrl.player1Letters = ['k', 'e', 'o', 'i', 'o', 'r', 't'];
-      ctrl.getPoints(word, definition);
-      expect(ctrl.history[0]).toEqual({ 'word': word, 'points': 3, 'definition': definition });
+      placeTripWord();
+      ctrl.getPoints('trip', 'definition');
+      expect(ctrl.history[0]).toEqual({ 'word': 'trip', 'points': 6, 'definition': 'definition' });
     });
 
   });
 
   describe('Placing letters', function() {
-
-    beforeEach(function() {
-      ctrl.setup();
-      ctrl.player1Letters = [{ 'value': 'p', 'status': 'ready' }, { 'value': 'u', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }, { 'value': 'i', 'status': 'ready' }, { 'value': 'o', 'status': 'ready' }, { 'value': 'r', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }];
-    });
-
-    placeLetter = function(index, x, y) {
-      ctrl.selectLetter(index);
-      ctrl.selectTile(x, y);
-    };
 
     it('Can place a single letter on board', function() {
       placeLetter(3, 1, 0);
@@ -101,11 +103,6 @@ describe('Scrabble Controller', function() {
 
   describe('Receiving letters', function() {
 
-    beforeEach(function() {
-      ctrl.setup();
-      ctrl.player1Letters = [{ 'value': 'p', 'status': 'ready' }, { 'value': 'u', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }, { 'value': 'i', 'status': 'ready' }, { 'value': 'o', 'status': 'ready' }, { 'value': 'r', 'status': 'ready' }, { 'value': 't', 'status': 'ready' }];
-    });
-
     it('player starts with 7 letters', function() {
       ctrl.distributeNewLetters();
       expect(ctrl.player1Letters.length).toEqual(7);
@@ -129,7 +126,6 @@ describe('Scrabble Controller', function() {
       ctrl.swapLetter();
       // Letter p gets deleted, and other letters shift one place to left
       expect(ctrl.player1Letters[0].value).toEqual('u');
-      // Player has seven letters, but could get the same letter back
       expect(ctrl.player1Letters.length).toEqual(7);
     });
 

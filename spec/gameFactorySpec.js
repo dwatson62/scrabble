@@ -42,4 +42,39 @@ describe('Game Factory', function() {
     expect(newLetters[1]).not.toEqual('p');
   });
 
+  describe('Points', function() {
+
+    it('can calculate total points for a word', function() {
+      var word = [{letter: 't', position: 'E1'}, {letter: 'r', position: 'E2'}, {letter: 'i', position: 'E3'}, {letter: 'p', position: 'E4'}];
+      expect(gameService.getPoints(word)).toEqual(6);
+    });
+
+    it('can calculate double word bonus', function() {
+      var word = [{letter: 't', position: 'B1'}, {letter: 'r', position: 'B2'}, {letter: 'i', position: 'B3'}, {letter: 'p', position: 'B4'}];
+      expect(gameService.getPoints(word)).toEqual(12);
+    });
+
+    it('can calculate triple word bonus', function() {
+      var word = [{letter: 't', position: 'A8'}, {letter: 'r', position: 'A9'}, {letter: 'i', position: 'A10'}, {letter: 'p', position: 'A11'}];
+      expect(gameService.getPoints(word)).toEqual(18);
+    });
+
+    it('can calculate double letter bonus', function() {
+      var word = [{letter: 't', position: 'A4'}, {letter: 'r', position: 'A5'}, {letter: 'i', position: 'A6'}, {letter: 'p', position: 'A7'}];
+      expect(gameService.getPoints(word)).toEqual(7);
+    });
+
+    it('can calculate triple letter bonus', function() {
+      var word = [{letter: 't', position: 'B6'}, {letter: 'r', position: 'B7'}, {letter: 'i', position: 'B8'}, {letter: 'p', position: 'B9'}];
+      expect(gameService.getPoints(word)).toEqual(8);
+    });
+
+    it('can calculate letter and word bonus combined', function() {
+      var word = [{letter: 't', position: 'A1'}, {letter: 'r', position: 'A2'}, {letter: 'i', position: 'A3'}, {letter: 'p', position: 'A4'}];
+      expect(gameService.getPoints(word)).toEqual(27);
+    });
+
+  });
+
+
 });

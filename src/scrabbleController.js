@@ -1,4 +1,4 @@
-app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 'gameFactory', 'boardTileFactory', function($http, wordsFactory, pointsFactory, gameFactory, boardTileFactory) {
+app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'boardTileFactory', function($http, wordsFactory, gameFactory, boardTileFactory) {
 
   var self = this;
 
@@ -10,7 +10,6 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
 
   var boardTileService = new boardTileFactory();
   var gameService = new gameFactory();
-  var pointService = new pointsFactory();
   var wordService = new wordsFactory();
 
           // Game setup
@@ -50,8 +49,8 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
     self.player1Letters = wordService.removeSelectedClass(self.player1Letters);
   };
 
-  self.removePlacedClass = function() {
-    self.player1Letters = wordService.removePlacedClass(self.player1Letters);
+  self.removeAllPlacedClasses = function() {
+    self.player1Letters = wordService.removeAllPlacedClasses(self.player1Letters);
   };
 
   self.addSelectedClass = function(index) {
@@ -159,7 +158,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   };
 
   self.getPoints = function(word, definition) {
-    var points = pointService.getPoints(word);
+    var points = gameService.getPoints(self.input);
     self.history.push( { 'word': word, 'points': points, 'definition': definition } );
     self.totalScore += points;
   };
@@ -169,7 +168,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
   self.resetRound = function() {
     self.removeTileFromDisplay();
     self.input = [];
-    self.removePlacedClass();
+    self.removeAllPlacedClasses();
   };
 
    self.removeTileFromDisplay = function() {
@@ -181,7 +180,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'pointsFactory', 
 
   self.clear = function() {
     self.removeTileFromDisplay();
-    self.removePlacedClass();
+    self.removeAllPlacedClasses();
     self.input = [];
   };
 

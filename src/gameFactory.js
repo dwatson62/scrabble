@@ -1,7 +1,7 @@
 app.factory('gameFactory', function() {
 
   var Game = function() {
-    this.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
+    this.bonuses = this.createBoard();
   };
 
   Game.prototype.createBoard = function() {
@@ -49,6 +49,29 @@ app.factory('gameFactory', function() {
     currentLetters.splice(index, 1);
     currentLetters = this.distributeLetters(currentLetters, bag);
     return currentLetters;
+  };
+
+  Game.prototype.getPoints = function(input) {
+    var currentBonuses = [/* word bonus */ 1, /* letter bonus */ 1];
+    var total = 0;
+    for (var i in input) {
+      currentBonuses[1] = 1;
+      var position = input[i].position;
+      if (this.bonuses[position] !== undefined) {
+        currentBonuses = this.getBonuses(this.bonuses[position], currentBonuses);
+      }
+      var letter = input[i].letter;
+      total += (letterValues[letter].points * currentBonuses[1]);
+    }
+    return total * currentBonuses[0];
+  };
+
+  Game.prototype.getBonuses = function(position, currentBonuses) {
+    if (position === 'doubleword') { currentBonuses[0] *= 2; }
+    if (position === 'tripleword') { currentBonuses[0] *= 3; }
+    if (position === 'doubleletter') { currentBonuses[1] = 2; }
+    if (position === 'tripleletter') { currentBonuses[1] = 3; }
+    return currentBonuses;
   };
 
   return Game;

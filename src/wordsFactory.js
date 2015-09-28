@@ -44,7 +44,7 @@ app.factory('wordsFactory', ['$http', function($http) {
     });
   };
 
-  Words.prototype.removePlacedClass = function(letters) {
+  Words.prototype.removeAllPlacedClasses = function(letters) {
     return _.each(letters, function(letter) {
       if (letter.status === 'placed') {
         letter.status = 'ready';
