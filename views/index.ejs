@@ -23,22 +23,11 @@
     <div class='container'>
       <div class="row">
         <div class="col-md-8">
-          <div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">
-            <img ng-class='scrbCtrl.showSelected($index)' id='letter-{{ letter.value }}' ng-src="/images/tiles/letter-{{ letter.value }}.png" height="60" ng-click='scrbCtrl.selectLetter($index)'>
-          </div>
+          <% include playerLetters %>
           <% include board %>
         </div>
         <div class="col-md-4">
-          <button id='play-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.playWord()'>Play Word</button>
-          <button id='clear-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.clear()'>Clear</button>
-          <button ng-disabled='scrbCtrl.selected === null' ng-click='scrbCtrl.swapLetter()'>Swap Letter</button>
-          <br>
-          <div ng-model='scrbCtrl.points'>
-            Total: {{ scrbCtrl.totalScore }}
-          </div>
-          <div ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
-            <li> {{ history.word }} - {{ history.definition }} - {{ history.points }} points</li>
-          </div>
+         <% include dashboard %>
         </div>
       </div>
     </div>

@@ -1,0 +1,3 @@
+<div ng-repeat='letter in scrbCtrl.player1Letters track by $index' style="float:left">
+  <img ng-class='scrbCtrl.showSelected($index)' id='letter-{{ letter.value }}' ng-src="/images/tiles/letter-{{ letter.value }}.png" height="60" ng-click='scrbCtrl.selectLetter($index)'>
+</div>

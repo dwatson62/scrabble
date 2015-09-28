@@ -1,0 +1,11 @@
+<script src='bower_components/angular/angular.js'></script>
+<script src='bower_components/jquery/dist/jquery.js'></script>
+<script src='bower_components/underscore/underscore.js'></script>
+<script src='src/app.js'></script>
+<script src='src/boardTileFactory.js'></script>
+<script src='src/gameFactory.js'></script>
+<script src='src/pointsFactory.js'></script>
+<script src='src/wordsFactory.js'></script>
+<script src='src/scrabbleController.js'></script>
+<script src='src/letters.js'></script>
+<script src='secrets/secrets.js'></script>
