@@ -15,14 +15,6 @@ app.factory('wordsFactory', ['$http', function($http) {
     return false;
   };
 
-  Words.prototype.createRequest = function(word) {
-    var url = 'http://api.wordnik.com:80/v4/word.json/';
-    var wordDef = word + '/definitions?';
-    var stuff = 'limit=1&includeRelated=true&useCanonical=false&includeTags=false';
-    var request = url + wordDef + stuff + '&api_key=' + api_key;
-    return request;
-  };
-
   Words.prototype.organiseInput = function(letters) {
     letters = _.chain(letters)
       .sortBy('position')

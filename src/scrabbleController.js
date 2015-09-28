@@ -128,12 +128,14 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     var word = _.pluck(self.input, 'letter').join('');
     self.checkLetters = wordService.checkValidLetters(word, self.player1Letters);
     if (self.checkLetters === false) { return self.resetRound(); }
-    var request = wordService.createRequest(word);
-    self.sendRequest(request, word);
+    self.sendRequest(word);
   };
 
-  self.sendRequest = function(request, word) {
-    $http.get(request).
+  self.sendRequest = function(word) {
+    var config = {
+      params: { 'word': word }
+    }
+    $http.get('/word', config).
       then(function(response) {
         if (response.data.length === 0) { return self.notAWord(word); }
         return self.isAWord(word, response.data[0].text);

@@ -10,7 +10,6 @@ var app = express();
 
 var dotenv = require('dotenv');
 dotenv.load();
-console.log(process.env.APIKEY)
 
 var server = app.listen(process.env.PORT || 3000, function () {
   console.log('Server starting on port 3000');

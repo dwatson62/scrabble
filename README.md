@@ -17,6 +17,30 @@ Words cannot intersect with each other just yet. Blank tiles are not in the game
 
 When the game runs low on letters, the console merely says game over.
 
+## Installation
+
+The program requires access to the wordnik dictionary API. To get your token, visit [http://developer.wordnik.com/](http://developer.wordnik.com/)
+
+- ``` git clone https://github.com/dwatson62/scrabble ```
+- ``` cd clothes_store_angular ```
+- ``` touch dotenv ``` and then add ``` APIKEY='your api key' ``` to the file
+- ``` npm start ```(this will install all node modules and bower components, then start the server)
+- Visit [http://localhost:3000](http://localhost:3000)
+
+## To run the tests after installation
+
+#### Unit tests
+
+- ``` npm test ```
+
+#### Feature tests
+
+In seperate windows:
+
+- ``` npm start ```
+- ``` webdriver-manager update ``` then ``` webdriver-manager start ```
+- ``` protractor spec/e2e/conf.js ```
+
 ## Technologies Used
 
 - Node JS
