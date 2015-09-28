@@ -22,7 +22,7 @@ When the game runs low on letters, the console merely says game over.
 The program requires access to the wordnik dictionary API. To get your token, visit [http://developer.wordnik.com/](http://developer.wordnik.com/)
 
 - ``` git clone https://github.com/dwatson62/scrabble ```
-- ``` cd clothes_store_angular ```
+- ``` cd scrabble ```
 - ``` touch dotenv ``` and then add ``` APIKEY='your api key' ``` to the file
 - ``` npm start ```(this will install all node modules and bower components, then start the server)
 - Visit [http://localhost:3000](http://localhost:3000)
