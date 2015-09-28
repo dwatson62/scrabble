@@ -26,4 +26,4 @@ var letterValues = {
         "y": { "points":  4, "tiles":  2 },
         "z": { "points": 10, "tiles":  1 }
         // "blank": { "points": 0, "tiles": 2}
-    }
+    };

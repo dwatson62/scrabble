@@ -62,6 +62,7 @@ app.factory('gameFactory', function() {
       }
       var letter = input[i].letter;
       total += (letterValues[letter].points * currentBonuses[1]);
+      this.removeBonusTile(position);
     }
     total *= currentBonuses[0];
     if (input.length === 7) { total += 50; }
@@ -74,6 +75,10 @@ app.factory('gameFactory', function() {
     if (position === 'doubleletter') { currentBonuses[1] = 2; }
     if (position === 'tripleletter') { currentBonuses[1] = 3; }
     return currentBonuses;
+  };
+
+  Game.prototype.removeBonusTile = function(position) {
+    delete this.bonuses[position];
   };
 
   return Game;

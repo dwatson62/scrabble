@@ -82,7 +82,13 @@ describe('Game Factory', function() {
                           { letter: 'u', position: 'A5' },
                           { letter: 't', position: 'A6' },
                           { letter: 'e', position: 'A7' }];
-      expect(gameService.getPoints(word)).toEqual(98)
+      expect(gameService.getPoints(word)).toEqual(98);
+    });
+
+    it('a bonus tile can only be used once', function() {
+      var word = [{letter: 't', position: 'B6'}, {letter: 'r', position: 'B7'}, {letter: 'i', position: 'B8'}, {letter: 'p', position: 'B9'}];
+      gameService.getPoints(word);
+      expect(_.keys(gameService.bonuses).length).toEqual(59);
     });
 
   });

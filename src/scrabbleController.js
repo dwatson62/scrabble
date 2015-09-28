@@ -140,9 +140,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
   };
 
   self.sendRequest = function(word) {
-    var config = {
-      params: { 'word': word }
-    }
+    var config = { params: { 'word': word } };
     $http.get('/word', config).
       then(function(response) {
         if (response.data.length === 0) { return self.notAWord(word); }
