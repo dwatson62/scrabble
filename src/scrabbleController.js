@@ -45,8 +45,8 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     return self.player1Letters[index] === 'placed';
   };
 
-  self.removeSelectedClass = function() {
-    self.player1Letters = wordService.removeSelectedClass(self.player1Letters);
+  self.removeAllSelectedClass = function() {
+    self.player1Letters = wordService.removeAllSelectedClass(self.player1Letters);
   };
 
   self.removeAllPlacedClasses = function() {
@@ -89,9 +89,17 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
 
   self.selectLetter = function(index) {
     if (self.player1Letters[index].status === 'placed') { return; }
+    if (self.player1Letters[index].status === 'selected') {
+      return self.undoSelect(index);
+    }
     self.selected = self.player1Letters[index].value;
-    self.removeSelectedClass();
+    self.removeAllSelectedClass();
     self.addSelectedClass(index);
+  };
+
+  self.undoSelect = function(index) {
+    self.selected = null;
+    self.removeAllSelectedClass();
   };
 
   self.selectTile = function(x, y) {

@@ -44,7 +44,7 @@ app.factory('wordsFactory', ['$http', function($http) {
     });
   };
 
-  Words.prototype.removeSelectedClass = function(letters) {
+  Words.prototype.removeAllSelectedClass = function(letters) {
     return _.each(letters, function(letter) {
       if (letter.status === 'selected') {
         letter.status = 'ready';
