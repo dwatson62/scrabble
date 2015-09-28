@@ -23,7 +23,7 @@ The program requires access to the wordnik dictionary API. To get your token, vi
 
 - ``` git clone https://github.com/dwatson62/scrabble ```
 - ``` cd scrabble ```
-- ``` touch dotenv ``` and then add ``` APIKEY='your api key' ``` to the file
+- ``` touch .env ``` and then add ``` APIKEY='your api key' ``` to the file
 - ``` npm start ```(this will install all node modules and bower components, then start the server)
 - Visit [http://localhost:3000](http://localhost:3000)
 
