@@ -25,21 +25,15 @@ describe('Words Factory', function() {
       });
     };
 
-    it('Knows when given valid letters', function() {
-      placeWord('kir');
-      var verdict = wordService.checkValidLetters('kir', letters);
-      expect(_.pluck(verdict, 'value')).toEqual([ 'p', 't', 'e', 't' ]);
-    });
-
     it('Correctly deletes selected letters', function() {
       placeWord('kite');
-      var verdict = wordService.checkValidLetters('kite', letters);
+      var verdict = wordService.removePlacedLetters(letters);
       expect(_.pluck(verdict, 'value')).toEqual([ 'p', 'r', 't' ]);
     });
 
     it('Correctly deletes selected letters when more than one', function() {
       placeWord('kit');
-      var verdict = wordService.checkValidLetters('kit', letters);
+      var verdict = wordService.removePlacedLetters(letters);
       expect(_.pluck(verdict, 'value')).toEqual([ 'p', 'e', 'r', 't' ]);
     });
 

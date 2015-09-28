@@ -111,7 +111,6 @@ describe('Scrabble Controller', function() {
     it('after a correct word, player replaces letters to always have 7', function() {
       var word = 'eat';
       var definition = 'To take into the body by the mouth for digestion or absorption.';
-      ctrl.checkLetters = ['i', 'o', 'r', 't'];
       ctrl.isAWord(word, definition);
       expect(ctrl.player1Letters.length).toEqual(7);
     });
@@ -127,6 +126,16 @@ describe('Scrabble Controller', function() {
       // Letter p gets deleted, and other letters shift one place to left
       expect(ctrl.player1Letters[0].value).toEqual('u');
       expect(ctrl.player1Letters.length).toEqual(7);
+    });
+
+    it('stores history of where letters are placed', function() {
+      var word = 'put';
+      var definition = 'Definition';
+      placeLetter(0, 1, 0);
+      placeLetter(1, 1, 1);
+      placeLetter(2, 1, 2);
+      ctrl.isAWord(word, definition);
+      expect(ctrl.letterHistory).toEqual([{ letter: 'p', position: 'B1' }, { letter: 'u', position: 'B2' }, { letter: 't', position: 'B3' } ]);
     });
 
   });

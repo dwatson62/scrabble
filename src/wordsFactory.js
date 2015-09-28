@@ -2,17 +2,10 @@ app.factory('wordsFactory', ['$http', function($http) {
 
   var Words = function() {};
 
-  Words.prototype.checkValidLetters = function(word, playerLetters) {
-    var checkLetters = _.clone(playerLetters);
-    checkLetters = _.reject(checkLetters, function(letter) {
+  Words.prototype.removePlacedLetters = function(playerLetters) {
+    return _.reject(playerLetters, function(letter) {
       return letter.status === 'placed';
     });
-    // In case the player used letters they didn't have
-    // This should not happen though
-    if (checkLetters.length === (7 - word.length)) {
-     return checkLetters;
-    }
-    return false;
   };
 
   Words.prototype.organiseInput = function(letters) {

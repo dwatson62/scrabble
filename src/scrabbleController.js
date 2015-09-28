@@ -4,6 +4,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
 
   self.input = [];
   self.player1Letters = [];
+  self.letterHistory = [];
   self.history = [];
   self.selected = null;
   self.totalScore = 0;
@@ -133,10 +134,13 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
           // Playing the word
 
   self.playWord = function() {
+    self.checkForHookWord();
     var word = _.pluck(self.input, 'letter').join('');
-    self.checkLetters = wordService.checkValidLetters(word, self.player1Letters);
-    if (self.checkLetters === false) { return self.resetRound(); }
     self.sendRequest(word);
+  };
+
+  self.checkForHookWord = function() {
+
   };
 
   self.sendRequest = function(word) {
@@ -155,20 +159,24 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
 
   self.isAWord = function(word, definition) {
     self.getPoints(word, definition);
-    self.updateLetters();
+    self.player1Letters = wordService.removePlacedLetters(self.player1Letters);
+    self.distributeNewLetters();
+    self.updateLetterHistory();
     self.input = [];
     boardTileService.resetDirection();
   };
 
-  self.updateLetters = function() {
-    self.player1Letters = self.checkLetters;
-    self.distributeNewLetters();
+  self.updateLetterHistory = function() {
+    _.each(self.input, function(letter) {
+      self.letterHistory.push(letter);
+    });
   };
 
   self.getPoints = function(word, definition) {
     var points = gameService.getPoints(self.input);
     self.history.push( { 'word': word, 'points': points, 'definition': definition } );
     self.totalScore += points;
+
   };
 
           // Clearing
