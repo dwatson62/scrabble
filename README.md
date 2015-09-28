@@ -5,7 +5,7 @@ Scrabble
 
 ## Synopsis
 
-Making Scrabble in Angular. Because why not.
+Making Scrabble in Angular. Because why not. Available at [https://scrabble62.herokuapp.com/](https://scrabble62.herokuapp.com/)
 
 Version Scooter:
 
