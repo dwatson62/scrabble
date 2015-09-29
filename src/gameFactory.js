@@ -32,14 +32,16 @@ app.factory('gameFactory', function() {
         bag.push(letters[letter]);
       }
     }
-    return _.shuffle(bag);
+    return bag.reverse();
+    // return _.shuffle(bag);
   };
 
   Game.prototype.distributeLetters = function(currentLetters, bag) {
     var number = 7 - currentLetters.length;
     for (i = 0; i < number; i ++) {
-      var x = Math.floor((Math.random() * bag.length));
-      var letter = bag.splice(x, 1).join();
+      // var x = Math.floor((Math.random() * bag.length));
+      // var letter = bag.splice(x, 1).join();
+      var letter = bag.splice(i, 1).join();
       currentLetters.push({ 'value': letter, 'status': 'ready' });
     }
     return currentLetters;

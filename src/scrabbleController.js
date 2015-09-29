@@ -1,4 +1,4 @@
-app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'boardTileFactory', function($http, wordsFactory, gameFactory, boardTileFactory) {
+app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'boardTileFactory', 'ngDialog', function($http, wordsFactory, gameFactory, boardTileFactory, ngDialog) {
 
   var self = this;
 
@@ -8,6 +8,8 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
   self.history = [];
   self.selected = null;
   self.totalScore = 0;
+
+  self.test = 'Enter a letter';
 
   var boardTileService = new boardTileFactory();
   var gameService = new gameFactory();
@@ -28,6 +30,17 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
       return;
     }
     self.player1Letters = gameService.distributeLetters(self.player1Letters, self.bag);
+  };
+
+  self.assignLetterToBlank = function(index) {
+    ngDialog.openConfirm({ template: 'stuff',
+                          controller: 'ScrabbleController',
+                          controllerAs:'scrbCtrl'
+                        }).then(function(letter) {
+                          self.player1Letters[index].value = letter;
+                          self.selected = self.player1Letters[index].value;
+                          console.log(self.player1Letters)
+                        });
   };
 
           // Rendering correct tiles
@@ -93,7 +106,11 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     if (self.player1Letters[index].status === 'selected') {
       return self.undoSelect(index);
     }
-    self.selected = self.player1Letters[index].value;
+    if (self.player1Letters[index].value === 'blank') {
+      self.assignLetterToBlank(index);
+    } else {
+      self.selected = self.player1Letters[index].value;
+    }
     self.removeAllSelectedClass();
     self.addSelectedClass(index);
   };

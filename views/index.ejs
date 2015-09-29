@@ -2,9 +2,14 @@
 <html ng-app='ScrabbleApp'>
   <head>
     <title>Scrabble</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css' />
+    <link rel='stylesheet' href='bower_components/ngDialog/css/ngDialog.min.css' />
+    <link rel='stylesheet' href='bower_components/ngDialog/css/ngDialog-theme-plain.min.css' />
+    <link rel='stylesheet' href='bower_components/ngDialog/css/ngDialog-theme-default.min.css' />
+    <link rel='stylesheet' href='bower_components/ngDialog/css/ngDialog-custom-width.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src='bower_components/angular/angular.js'></script>
+    <script src='bower_components/ngDialog/js/ngDialog.min.js'></script>
     <script src='bower_components/jquery/dist/jquery.js'></script>
     <script src='bower_components/underscore/underscore.js'></script>
     <script src='src/app.js'></script>
@@ -26,5 +31,6 @@
         </div>
       </div>
     </div>
+    <% include popupForm %>
   </body>
 </html>

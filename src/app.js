@@ -1,1 +1,1 @@
-var app = angular.module('ScrabbleApp', []);
+var app = angular.module('ScrabbleApp', ['ngDialog']);
