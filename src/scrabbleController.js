@@ -121,8 +121,12 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
                           controller: 'ScrabbleController',
                           controllerAs:'scrbCtrl'
                         }).then(function(letter) {
-                          self.selected = letter;
-                          self.addToInput(tile, true);
+                          if (/[a-z]/i.test(letter) === true && letter !== undefined) {
+                            if (letter.length === 1) {
+                              self.selected = letter.toLowerCase();
+                              self.addToInput(tile, true);
+                            }
+                          }
                         });
   };
 

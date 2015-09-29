@@ -4,7 +4,7 @@
     <input type='text' size='1' ng-model='inputValue'/>
   </div>
   <div class="ngdialog-buttons">
-    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(inputValue)">Confirm</button>
+    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(inputValue)" ng-disabled='inputValue === null'>Confirm</button>
     <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')">Cancel</button>
   </div>
 </script>

@@ -37,17 +37,6 @@ describe('Words Factory', function() {
       expect(_.pluck(verdict, 'value')).toEqual([ 'p', 'e', 'r', 't' ]);
     });
 
-    xit('Correctly handles blank letters', function() {
-      placeWord('kite');
-      var verdict = wordService.checkValidLetters('kite', letters);
-      expect(_.pluck(verdict, 'value')).toEqual([ 'p', 'r', 't' ]);
-    });
-
-    xit('Correctly handles two blank letters', function() {
-      wordService.checkValidLetters('kite', letters);
-      expect(wordService.checkLetters).toEqual([ 'p', 'r', 't' ]);
-    });
-
   });
 
 });
