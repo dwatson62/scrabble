@@ -1,10 +1,11 @@
-<button id='play-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.playWord()'>Play Word</button>
-<button id='clear-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.clear()'>Clear</button>
-<button ng-disabled='scrbCtrl.selected === null' ng-click='scrbCtrl.swapLetter()'>Swap Letter</button>
-<br>
-<div ng-model='scrbCtrl.points'>
-  Total: {{ scrbCtrl.totalScore }}
-</div>
-<div ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
-  <li> {{ history.word }} - {{ history.definition }} - {{ history.points }} points</li>
-</div>
+<button class="btn btn-primary" id='play-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.playWord()'>Play Word</button>
+<button class="btn btn-primary" id='clear-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.clear()'>Clear</button>
+<button class="btn btn-primary" ng-disabled='scrbCtrl.selected === null' ng-click='scrbCtrl.swapLetter()'>Swap Letter</button>
+<h3 class='display score-display' ng-model='scrbCtrl.points'>
+  {{ scrbCtrl.totalScore }}
+</h3>
+<ul class='display' ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
+  <h4> <i> {{ history.word }} </i> </h4>
+  <p> {{ history.definition }} </p>
+  <p> <b> {{ history.points }} points </b> </p>
+</ul>

@@ -4,9 +4,7 @@
       <% for (y = 0; y < 15; y ++) { %>
         <td class="tg-031e">
           <div>
-            <center>
-              <img ng-class='scrbCtrl.showBoardTiles(<%= x %>, <%= y %>)' id='img<%= x %>-<%= y %>' ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}.png' ng-click='scrbCtrl.selectTile(<%= x %>, <%= y %>)'>
-            </center>
+            <img ng-class='scrbCtrl.showBoardTiles(<%= x %>, <%= y %>)' id='img<%= x %>-<%= y %>' ng-src='/images/tiles/{{ scrbCtrl.tile(<%= x %>, <%= y %>) }}.png' ng-click='scrbCtrl.selectTile(<%= x %>, <%= y %>)'>
           </div>
         </td>
       <% } %>

@@ -3,11 +3,13 @@ Scrabble
 
 [![Code Climate](https://codeclimate.com/github/dwatson62/scrabble/badges/gpa.svg)](https://codeclimate.com/github/dwatson62/scrabble) [![Build Status](https://travis-ci.org/dwatson62/scrabble.svg?branch=master)](https://travis-ci.org/dwatson62/scrabble)
 
+![scrabble-logo](https://github.com/dwatson62/clothes_store_angular/blob/master/public/images/scrabble-logo.png)
+
 ## Synopsis
 
 Making Scrabble in Angular. Because why not. Available at [https://scrabble62.herokuapp.com/](https://scrabble62.herokuapp.com/)
 
-Version Scooter:
+Current Version:
 
 It is a one player game, players can place a word anywhere on the board and score points for a valid word, and 0 points for an invalid word.
 
