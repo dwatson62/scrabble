@@ -32,17 +32,6 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     self.player1Letters = gameService.distributeLetters(self.player1Letters, self.bag);
   };
 
-  self.assignLetterToBlank = function(index) {
-    ngDialog.openConfirm({ template: 'stuff',
-                          controller: 'ScrabbleController',
-                          controllerAs:'scrbCtrl'
-                        }).then(function(letter) {
-                          self.player1Letters[index].value = letter;
-                          self.selected = self.player1Letters[index].value;
-                          console.log(self.player1Letters)
-                        });
-  };
-
           // Rendering correct tiles
 
   self.tile = function(x, y) {
@@ -106,11 +95,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     if (self.player1Letters[index].status === 'selected') {
       return self.undoSelect(index);
     }
-    if (self.player1Letters[index].value === 'blank') {
-      self.assignLetterToBlank(index);
-    } else {
-      self.selected = self.player1Letters[index].value;
-    }
+    self.selected = self.player1Letters[index].value;
     self.removeAllSelectedClass();
     self.addSelectedClass(index);
   };
@@ -124,8 +109,26 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     var tile = boardTileService.convert(x, y);
     if (self.invalidTile(x, y, tile) === false) { return; }
     self.addPlacedClass();
+    if (self.selected === 'blank') {
+      self.assignLetterToBlank(tile);
+    } else {
+      self.addToInput(tile, false);
+    }
+  };
+
+  self.assignLetterToBlank = function(tile) {
+    ngDialog.openConfirm({ template: 'popupForm',
+                          controller: 'ScrabbleController',
+                          controllerAs:'scrbCtrl'
+                        }).then(function(letter) {
+                          self.selected = letter;
+                          self.addToInput(tile, true);
+                        });
+  };
+
+  self.addToInput = function(tile, isBlank) {
     self.boardDisplay[tile] = self.selected;
-    self.input.push({ 'letter': self.selected, 'position': tile });
+    self.input.push({ 'letter': self.selected, 'position': tile, 'blank': isBlank });
     self.organiseInput();
     self.selected = null;
   };

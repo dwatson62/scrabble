@@ -32,16 +32,14 @@ app.factory('gameFactory', function() {
         bag.push(letters[letter]);
       }
     }
-    return bag.reverse();
-    // return _.shuffle(bag);
+    return _.shuffle(bag);
   };
 
   Game.prototype.distributeLetters = function(currentLetters, bag) {
     var number = 7 - currentLetters.length;
     for (i = 0; i < number; i ++) {
-      // var x = Math.floor((Math.random() * bag.length));
-      // var letter = bag.splice(x, 1).join();
-      var letter = bag.splice(i, 1).join();
+      var x = Math.floor((Math.random() * bag.length));
+      var letter = bag.splice(x, 1).join();
       currentLetters.push({ 'value': letter, 'status': 'ready' });
     }
     return currentLetters;
@@ -62,7 +60,9 @@ app.factory('gameFactory', function() {
       if (this.bonuses[position] !== undefined) {
         currentBonuses = this.getBonuses(this.bonuses[position], currentBonuses);
       }
-      var letter = input[i].letter;
+      var letter;
+      if (input[i].blank === true) { letter = 'blank'; }
+      else { letter = input[i].letter; }
       total += (letterValues[letter].points * currentBonuses[1]);
       this.removeBonusTile(position);
     }
