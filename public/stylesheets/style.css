@@ -19,26 +19,38 @@ a {
   opacity: 0.1;
 }
 
-.tg  {border-collapse:collapse;border-spacing:0;}
-
-.tg td {
-  font-family:Arial, sans-serif;
-  font-size:14px;
-  padding:10px 5px;
-  border-style:solid;
-  border-width:1px;
-  overflow:hidden;
-  word-break:normal;
-  width:60px;
-  height:60px;
- }
-
 .board-tiles-active {
   opacity: 1;
+  height: 50px;
 }
 
 .board-tiles-inactive {
   opacity: 0.1;
-};
+  height: 50px;
+}
 
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg  {
+  border-collapse:collapse;
+  border-spacing:0;
+}
+
+.tg td {
+  font-family:Arial, sans-serif;
+  font-size:14px;
+  border-style:solid;
+  border-width:1px;
+  overflow:hidden;
+  word-break:normal;
+  width:50px;
+  height:50px;
+ }
+
+.tg th {
+  font-family:Arial, sans-serif;
+  font-size:14px;
+  font-weight:normal;
+  border-style:solid;
+  border-width:1px;
+  overflow:hidden;
+  word-break:normal;
+}
