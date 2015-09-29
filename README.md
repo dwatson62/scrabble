@@ -3,7 +3,7 @@ Scrabble
 
 [![Code Climate](https://codeclimate.com/github/dwatson62/scrabble/badges/gpa.svg)](https://codeclimate.com/github/dwatson62/scrabble) [![Build Status](https://travis-ci.org/dwatson62/scrabble.svg?branch=master)](https://travis-ci.org/dwatson62/scrabble)
 
-![scrabble-logo](https://github.com/dwatson62/clothes_store_angular/blob/master/public/images/scrabble-logo.png)
+![scrabble-logo](https://github.com/dwatson62/scrabble/blob/master/public/images/scrabble-logo.jpg)
 
 ## Synopsis
 
