@@ -6,6 +6,11 @@ app.factory('boardTileFactory', function() {
     this.horizontal = false;
   };
 
+  BoardTile.prototype.direction = function() {
+    if (this.vertical === true) { return 'vertical'; }
+    return 'horizontal';
+  };
+
   BoardTile.prototype.resetDirection = function() {
     this.vertical = false;
     this.horizontal = false;
@@ -38,28 +43,30 @@ app.factory('boardTileFactory', function() {
   //   return 'board-tiles-inactive';
   // };
 
-  BoardTile.prototype.showBoardTiles = function(x, y, playerInput) {
+  BoardTile.prototype.showBoardTiles = function(tileToCheck, playerInput) {
     if (this.horizontal === false && this.vertical === false) {
       this.determineDirection(playerInput);
     }
     if (this.vertical === true) {
-      return this.showTilesLaidVertically(x, y, playerInput);
+      return this.showTilesLaidVertically(tileToCheck, playerInput);
     } else if (this.horizontal === true) {
-      return this.showTilesLaidHorizontally(x, y, playerInput);
+      return this.showTilesLaidHorizontally(tileToCheck, playerInput);
     }
   };
 
   BoardTile.prototype.determineDirection = function(playerInput) {
-    var tile = this.reverseConvert(playerInput[0].position);
-    var tile2 = this.reverseConvert(playerInput[1].position);
-    if (this.aboveOrBelow(tile, tile2[0], tile2[1]) === true) {
+    var placedTile = this.reverseConvert(playerInput[0].position);
+    var tileToCheck = this.reverseConvert(playerInput[1].position);
+    if (this.aboveOrBelow(tileToCheck, placedTile) === true) {
       this.vertical = true;
-    } else if (this.eitherSide(tile, tile2[0], tile2[1]) === true) {
+    } else if (this.eitherSide(tileToCheck, placedTile) === true) {
       this.horizontal = true;
     }
   };
 
-  BoardTile.prototype.showLaidTiles = function(x, y, playerInput, letterHistory) {
+  BoardTile.prototype.showLaidTiles = function(tileToCheck, playerInput, letterHistory) {
+    var x = tileToCheck[0];
+    var y = tileToCheck[1];
     for (var i in playerInput) {
       if (this.convert(x, y) === playerInput[i].position) { return true; }
     }
@@ -68,53 +75,56 @@ app.factory('boardTileFactory', function() {
     }
   };
 
-  BoardTile.prototype.showWhenOneTileLaid = function(x, y, playerInput) {
-    var tile = playerInput[0].position;
-    tile = this.reverseConvert(tile);
-    if (this.eitherSide(tile, x , y) || this.aboveOrBelow(tile, x, y) ) {
+  BoardTile.prototype.showWhenOneTileLaid = function(tileToCheck, playerInput) {
+    var placedTile = this.reverseConvert(playerInput[0].position);
+    if (this.eitherSide(tileToCheck, placedTile) || this.aboveOrBelow(tileToCheck, placedTile) ) {
       return 'board-tiles-active';
     }
     return 'board-tiles-inactive';
   };
 
-  BoardTile.prototype.showTilesLaidHorizontally = function(x, y, playerInput) {
-    var originalTile = this.reverseConvert(playerInput[0].position);
-    if (this.eitherSide(originalTile, x, y) === true) { return 'board-tiles-active'; }
-    originalTile = this.reverseConvert(_.last(playerInput).position);
-    if (this.eitherSide(originalTile, x, y) === true) { return 'board-tiles-active'; }
+  BoardTile.prototype.showTilesLaidHorizontally = function(tileToCheck, playerInput) {
+    var placedTile = this.reverseConvert(playerInput[0].position);
+    if (this.eitherSide(tileToCheck, placedTile) === true) { return 'board-tiles-active'; }
+    placedTile = this.reverseConvert(_.last(playerInput).position);
+    if (this.eitherSide(tileToCheck, placedTile) === true) { return 'board-tiles-active'; }
     return 'board-tiles-inactive';
   };
 
-  BoardTile.prototype.showTilesLaidVertically = function(x, y, playerInput) {
-    var originalTile = this.reverseConvert(playerInput[0].position);
-    if (this.aboveOrBelow(originalTile, x, y) === true) { return 'board-tiles-active'; }
-    originalTile = this.reverseConvert(_.last(playerInput).position);
-    if (this.aboveOrBelow(originalTile, x, y) === true) { return 'board-tiles-active'; }
+  BoardTile.prototype.showTilesLaidVertically = function(tileToCheck, playerInput) {
+    var placedTile = this.reverseConvert(playerInput[0].position);
+    if (this.aboveOrBelow(tileToCheck, placedTile) === true) { return 'board-tiles-active'; }
+    placedTile = this.reverseConvert(_.last(playerInput).position);
+    if (this.aboveOrBelow(tileToCheck, placedTile) === true) { return 'board-tiles-active'; }
     return 'board-tiles-inactive';
   };
 
-  BoardTile.prototype.eitherSide = function(originalTile, x, y) {
-    return this.oneTileToLeft(originalTile, x, y) || this.oneTileToRight(originalTile, x, y);
+  BoardTile.prototype.eitherSide = function(tileToCheck, placedTile) {
+    return this.oneTileToLeft(tileToCheck, placedTile) || this.oneTileToRight(tileToCheck, placedTile);
   };
 
-  BoardTile.prototype.aboveOrBelow = function(originalTile, x, y) {
-    return this.oneTileAbove(originalTile, x, y) || this.oneTileBelow(originalTile, x, y);
+  BoardTile.prototype.aboveOrBelow = function(tileToCheck, placedTile) {
+    return this.oneTileAbove(tileToCheck, placedTile) || this.oneTileBelow(tileToCheck, placedTile);
   };
 
-  BoardTile.prototype.oneTileAbove = function(originalTile, x, y) {
-    return originalTile[0] - 1 == x && originalTile[1] == y;
+  BoardTile.prototype.oneTileAbove = function(tileToCheck, placedTile) {
+    return placedTile[0] - 1 == tileToCheck[0] && placedTile[1] == tileToCheck[1];
   };
 
-  BoardTile.prototype.oneTileBelow = function(originalTile, x, y) {
-    return originalTile[0] + 1 == x && originalTile[1] == y;
+  BoardTile.prototype.oneTileBelow = function(tileToCheck, placedTile) {
+    return placedTile[0] + 1 == tileToCheck[0] && placedTile[1] == tileToCheck[1];
   };
 
-  BoardTile.prototype.oneTileToLeft = function(originalTile, x, y) {
-    return originalTile[0] == x && originalTile[1] - 1 == y;
+  BoardTile.prototype.oneTileToLeft = function(tileToCheck, placedTile) {
+    return placedTile[0] == tileToCheck[0] && placedTile[1] - 1 == tileToCheck[1];
   };
 
-  BoardTile.prototype.oneTileToRight = function(originalTile, x, y) {
-    return originalTile[0] == x && originalTile[1] + 1 == y;
+  BoardTile.prototype.oneTileToRight = function(tileToCheck, placedTile) {
+    return placedTile[0] == tileToCheck[0] && placedTile[1] + 1 == tileToCheck[1];
+  };
+
+  BoardTile.prototype.checkForCompoundWord = function(word, pos) {
+
   };
 
   return BoardTile;

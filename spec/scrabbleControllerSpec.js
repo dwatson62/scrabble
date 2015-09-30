@@ -101,6 +101,26 @@ describe('Scrabble Controller', function() {
 
   });
 
+  xdescribe('Can make compound words', function() {
+
+    it('can make a simple compound word', function() {
+
+      ctrl.player1Letters = [{ 'value': 'p', 'status': 'ready' },
+                          { 'value': 's', 'status': 'ready' },
+                          { 'value': 't', 'status': 'ready' },
+                          { 'value': 'i', 'status': 'ready' },
+                          { 'value': 'o', 'status': 'ready' },
+                          { 'value': 'r', 'status': 'ready' },
+                          { 'value': 't', 'status': 'ready' }];
+      placeTripWord();
+      ctrl.isAWord('trip', 'definition');
+      placeLetter(0, 4, 4);
+      var word = _.pluck(ctrl.submitted, 'letter').join('');
+      expect(word).toEqual('trips');
+    });
+
+  });
+
   describe('Receiving letters', function() {
 
     it('player starts with 7 letters', function() {

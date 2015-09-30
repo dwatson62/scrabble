@@ -20,51 +20,44 @@ describe('BoardTile Factory', function() {
 
     it('Knows when given a tile with a letter already on it', function() {
       var playerInput = [{ 'position': 'A1' }, { 'position': 'A2'}];
-      var x = 0;
-      var y = 0;
-      expect(boardTile.showLaidTiles(x, y, playerInput)).toEqual(true);
+      var tileToCheck = [0, 0];
+      expect(boardTile.showLaidTiles(tileToCheck, playerInput)).toEqual(true);
     });
 
   });
 
   describe('Tile arrangement', function() {
 
-    var originalTile = [1, 1];
+    var placedTile = [1, 1];
 
     it('Knows when a tile is to the left of another', function() {
-      var x = 1;
-      var y = 0;
-      expect(boardTile.oneTileToLeft(originalTile, x, y)).toEqual(true);
+      var tileToCheck = [1, 0];
+      expect(boardTile.oneTileToLeft(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Knows when a tile is to the right of another', function() {
-      var x = 1;
-      var y = 2;
-      expect(boardTile.oneTileToRight(originalTile, x, y)).toEqual(true);
+      var tileToCheck = [1, 2];
+      expect(boardTile.oneTileToRight(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Can check either side', function() {
-      var x = 1;
-      var y = 0;
-      expect(boardTile.eitherSide(originalTile, x, y)).toEqual(true);
+      var tileToCheck = [1, 0];
+      expect(boardTile.eitherSide(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Knows when a tile is below another', function() {
-      var x = 2;
-      var y = 1;
-      expect(boardTile.oneTileBelow(originalTile, x, y)).toEqual(true);
+      var tileToCheck = [2, 1];
+      expect(boardTile.oneTileBelow(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Knows when a tile is above another', function() {
-      var x = 0;
-      var y = 1;
-      expect(boardTile.oneTileAbove(originalTile, x, y)).toEqual(true);
+      var tileToCheck = [0, 1];
+      expect(boardTile.oneTileAbove(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Can check above and below', function() {
-      var x = 2;
-      var y = 1;
-      expect(boardTile.aboveOrBelow(originalTile, x, y)).toEqual(true);
+      var tileToCheck = [2, 1];
+      expect(boardTile.aboveOrBelow(tileToCheck, placedTile)).toEqual(true);
     });
 
   });
