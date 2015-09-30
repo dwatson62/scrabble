@@ -16,16 +16,18 @@ describe('Scrabble Controller', function() {
                           { 'value': 't', 'status': 'ready' }];
   }));
 
-  placeLetter = function(index, x, y) {
-    ctrl.selectLetter(index);
-    ctrl.selectTile(x, y);
+  place = function(word, y) {
+    if (y === undefined) { y = 0; }
+    word = word.split('');
+    for (i = 0; i < word.length; i ++) {
+      placeLetter(word[i], 4, y + i);
+    }
   };
 
-  placeTripWord = function() {
-    placeLetter(2, 4, 0);
-    placeLetter(5, 4, 1);
-    placeLetter(3, 4, 2);
-    placeLetter(0, 4, 3);
+  placeLetter = function(letter, x, y) {
+    var index = _.indexOf(_.pluck(ctrl.player1Letters, 'value'), letter);
+    ctrl.selectLetter(index);
+    ctrl.selectTile(x, y);
   };
 
   it('is defined', function() {
@@ -35,7 +37,7 @@ describe('Scrabble Controller', function() {
   describe('Points', function() {
 
     it('Scores correct points for a word', function() {
-      placeTripWord();
+      place('trip');
       ctrl.getPoints('trip', 'definition');
       expect(ctrl.totalScore).toEqual(6);
     });
@@ -45,7 +47,7 @@ describe('Scrabble Controller', function() {
   describe('History', function() {
 
     it('Keeps a history of played words', function() {
-      placeTripWord();
+      place('trip');
       ctrl.getPoints('trip', 'definition');
       expect(ctrl.history[0]).toEqual({ 'word': 'trip', 'points': 6, 'definition': 'definition' });
     });
@@ -55,24 +57,22 @@ describe('Scrabble Controller', function() {
   describe('Placing letters', function() {
 
     it('Can place a single letter on board', function() {
-      placeLetter(3, 1, 0);
+      placeLetter('i', 1, 0);
       expect(ctrl.input).toEqual([{ letter: 'i', position: 'B1', 'blank': false }]);
     });
 
     it('Can place many letters on the board', function() {
-      placeLetter(0, 1, 0);
-      placeLetter(1, 1, 1);
-      placeLetter(2, 1, 2);
-      expect(ctrl.input).toEqual([{ letter: 'p', position: 'B1', 'blank': false },
-                                  { letter: 'u', position: 'B2', 'blank': false },
-                                  { letter: 't', position: 'B3', 'blank': false }
+      place('put');
+      expect(ctrl.input).toEqual([{ letter: 'p', position: 'E1', 'blank': false },
+                                  { letter: 'u', position: 'E2', 'blank': false },
+                                  { letter: 't', position: 'E3', 'blank': false }
                                   ]);
     });
 
     it('When placed out of order, it can sort them correctly', function() {
-      placeLetter(1, 1, 1);
-      placeLetter(0, 1, 0);
-      placeLetter(2, 1, 2);
+      placeLetter('u', 1, 1);
+      placeLetter('p', 1, 0);
+      placeLetter('t', 1, 2);
       expect(ctrl.submitted).toEqual([{ letter: 'p', position: 'B1', 'blank': false },
                                   { letter: 'u', position: 'B2', 'blank': false },
                                   { letter: 't', position: 'B3', 'blank': false }
@@ -80,9 +80,9 @@ describe('Scrabble Controller', function() {
     });
 
     it('When placed out of order, near edge of board it can sort them correctly', function() {
-      placeLetter(1, 1, 9);
-      placeLetter(0, 1, 8);
-      placeLetter(2, 1, 10);
+      placeLetter('u', 1, 9);
+      placeLetter('p', 1, 8);
+      placeLetter('t', 1, 10);
       expect(ctrl.submitted).toEqual([{ letter: 'p', position: 'B9', 'blank': false },
                                   { letter: 'u', position: 'B10', 'blank': false },
                                   { letter: 't', position: 'B11', 'blank': false }
@@ -90,9 +90,9 @@ describe('Scrabble Controller', function() {
     });
 
     it('When placed all over the place it can sort them correctly', function() {
-      placeLetter(1, 10, 8);
-      placeLetter(0, 9, 8);
-      placeLetter(2, 11, 8);
+      placeLetter('u', 10, 8);
+      placeLetter('p', 9, 8);
+      placeLetter('t', 11, 8);
       expect(ctrl.submitted).toEqual([{ letter: 'p', position: 'J9', 'blank': false },
                                   { letter: 'u', position: 'K9', 'blank': false },
                                   { letter: 't', position: 'M9', 'blank': false }
@@ -103,8 +103,7 @@ describe('Scrabble Controller', function() {
 
   describe('Can make compound words', function() {
 
-    it('can make a simple compound word', function() {
-
+    beforeEach(function() {
       ctrl.player1Letters = [{ 'value': 'p', 'status': 'ready' },
                           { 'value': 's', 'status': 'ready' },
                           { 'value': 't', 'status': 'ready' },
@@ -112,11 +111,22 @@ describe('Scrabble Controller', function() {
                           { 'value': 'o', 'status': 'ready' },
                           { 'value': 'r', 'status': 'ready' },
                           { 'value': 't', 'status': 'ready' }];
-      placeTripWord();
+    });
+
+    it('can make a simple compound word', function() {
+      place('trip');
       ctrl.isAWord('trip', 'definition');
-      placeLetter(0, 4, 4);
+      placeLetter('s', 4, 4);
       var word = _.pluck(ctrl.submitted, 'letter').join('');
       expect(word).toEqual('trips');
+    });
+
+    it('with letters to the right', function() {
+      place('trip', 1);
+      ctrl.isAWord('trip', 'definition');
+      placeLetter('s', 4, 0);
+      var word = _.pluck(ctrl.submitted, 'letter').join('');
+      expect(word).toEqual('strip');
     });
 
   });
@@ -149,16 +159,12 @@ describe('Scrabble Controller', function() {
     });
 
     it('stores history of where letters are placed', function() {
-      var word = 'put';
-      var definition = 'Definition';
-      placeLetter(0, 1, 0);
-      placeLetter(1, 1, 1);
-      placeLetter(2, 1, 2);
-      ctrl.isAWord(word, definition);
+      place('put');
+      ctrl.isAWord('put', 'definition');
       expect(ctrl.letterHistory).toEqual([
-        { letter: 'p', position: 'B1', 'blank': false, 'blank': false },
-        { letter: 'u', position: 'B2', 'blank': false },
-        { letter: 't', position: 'B3', 'blank': false }
+        { letter: 'p', position: 'E1', 'blank': false },
+        { letter: 'u', position: 'E2', 'blank': false },
+        { letter: 't', position: 'E3', 'blank': false }
         ]);
     });
 
