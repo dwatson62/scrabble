@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="popupForm">
   <div class="ngdialog-message">
     <h3>{{scrbCtrl.test}}</h3>
-    <input type='text' size='1' ng-model='inputValue'/>
+    <input type='text' size='1' maxlength='1' ng-model='inputValue'/>
   </div>
   <div class="ngdialog-buttons">
     <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(inputValue)" ng-disabled='inputValue === null'>Confirm</button>

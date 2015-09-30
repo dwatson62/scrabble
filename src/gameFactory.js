@@ -57,26 +57,35 @@ app.factory('gameFactory', function() {
     for (var i in input) {
       currentBonuses[1] = 1;
       var position = input[i].position;
-      if (this.bonuses[position] !== undefined) {
-        currentBonuses = this.getBonuses(this.bonuses[position], currentBonuses);
-      }
-      var letter;
-      if (input[i].blank === true) { letter = 'blank'; }
-      else { letter = input[i].letter; }
+      currentBonuses = this.getBonuses(position, currentBonuses);
+      var letter = this.checkForBlankOrLetter(input[i]);
       total += (letterValues[letter].points * currentBonuses[1]);
       this.removeBonusTile(position);
     }
     total *= currentBonuses[0];
-    if (input.length === 7) { total += 50; }
+    total = this.bingoBonus(input, total);
     return total;
   };
 
   Game.prototype.getBonuses = function(position, currentBonuses) {
-    if (position === 'doubleword') { currentBonuses[0] *= 2; }
-    if (position === 'tripleword') { currentBonuses[0] *= 3; }
-    if (position === 'doubleletter') { currentBonuses[1] = 2; }
-    if (position === 'tripleletter') { currentBonuses[1] = 3; }
+    if (_.has(this.bonuses, position) === true) {
+      position = this.bonuses[position];
+      if (position === 'doubleword') { currentBonuses[0] *= 2; }
+      if (position === 'tripleword') { currentBonuses[0] *= 3; }
+      if (position === 'doubleletter') { currentBonuses[1] = 2; }
+      if (position === 'tripleletter') { currentBonuses[1] = 3; }
+    }
     return currentBonuses;
+  };
+
+  Game.prototype.checkForBlankOrLetter = function(tile) {
+    if (tile.blank === true) { return 'blank'; }
+    return tile.letter;
+  };
+
+  Game.prototype.bingoBonus = function(input, total) {
+    if (input.length === 7) { total += 50; }
+    return total;
   };
 
   Game.prototype.removeBonusTile = function(position) {
