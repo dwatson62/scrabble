@@ -73,7 +73,7 @@ describe('Scrabble Controller', function() {
       placeLetter(1, 1, 1);
       placeLetter(0, 1, 0);
       placeLetter(2, 1, 2);
-      expect(ctrl.input).toEqual([{ letter: 'p', position: 'B1', 'blank': false },
+      expect(ctrl.submitted).toEqual([{ letter: 'p', position: 'B1', 'blank': false },
                                   { letter: 'u', position: 'B2', 'blank': false },
                                   { letter: 't', position: 'B3', 'blank': false }
                                   ]);
@@ -83,7 +83,7 @@ describe('Scrabble Controller', function() {
       placeLetter(1, 1, 9);
       placeLetter(0, 1, 8);
       placeLetter(2, 1, 10);
-      expect(ctrl.input).toEqual([{ letter: 'p', position: 'B9', 'blank': false },
+      expect(ctrl.submitted).toEqual([{ letter: 'p', position: 'B9', 'blank': false },
                                   { letter: 'u', position: 'B10', 'blank': false },
                                   { letter: 't', position: 'B11', 'blank': false }
                                   ]);
@@ -93,7 +93,7 @@ describe('Scrabble Controller', function() {
       placeLetter(1, 10, 8);
       placeLetter(0, 9, 8);
       placeLetter(2, 11, 8);
-      expect(ctrl.input).toEqual([{ letter: 'p', position: 'J9', 'blank': false },
+      expect(ctrl.submitted).toEqual([{ letter: 'p', position: 'J9', 'blank': false },
                                   { letter: 'u', position: 'K9', 'blank': false },
                                   { letter: 't', position: 'M9', 'blank': false }
                                   ]);
@@ -101,7 +101,7 @@ describe('Scrabble Controller', function() {
 
   });
 
-  xdescribe('Can make compound words', function() {
+  describe('Can make compound words', function() {
 
     it('can make a simple compound word', function() {
 

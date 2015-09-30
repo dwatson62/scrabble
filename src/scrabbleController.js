@@ -72,15 +72,15 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
           // Display board tiles at correct opacity
 
   self.showBoardTiles = function(x, y) {
-    var currentTile = [x, y];
-    if (boardTileService.showLaidTiles(currentTile, self.input, self.letterHistory) === true) {
+    var tileToCheck = [x, y];
+    if (boardTileService.showLaidTiles(tileToCheck, self.input, self.letterHistory) === true) {
       return 'board-tiles-active';
     }
     if (self.input.length === 0) { return 'board-tiles-active'; }
     if (self.input.length === 1) {
-      return boardTileService.showWhenOneTileLaid(currentTile, self.input);
+      return boardTileService.showWhenOneTileLaid(tileToCheck, self.input);
     }
-    return boardTileService.showBoardTiles(currentTile, self.input);
+    return boardTileService.showBoardTiles(tileToCheck, self.input);
   };
 
   self.startingTile = function(x, y) {
@@ -121,33 +121,33 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     } else {
       self.addToInput(tile, false);
     }
-    // self.checkForCompoundWord();
+    self.checkForCompoundWord();
   };
 
     self.checkForCompoundWord = function() {
       var direction = boardTileService.direction();
       var history = _.pluck(self.letterHistory, 'position');
-      for (i = 0; i < self.submitted.length; i ++) {
+      for (var j in history) {
+        for (var i in self.submitted) {
 
-        // if pos is within one square of anything in self.input, it must be added
-        // to 'word' to make the compound or perpendicular word
-        // and then anything within one square of that must also be added
+          // if pos is within one square of anything in self.input, it must be added
+          // to 'word' to make the compound or perpendicular word
+          // and then anything within one square of that must also be added
 
-        var checkOldTile = self.letterHistory[i].position;
-        var originalTile = boardTileService.reverseConvert(checkOldTile);
-        var oldTile = boardTileService.reverseConvert(self.letterHistory[j].position);
-        var submittedTiles = _.pluck(self.submitted, 'position');
-        if (direction === 'horizontal') {
-          if (boardTileService.eitherSide(originalTile, oldTile[0], oldTile[1]) === true && _.contains(submittedTiles, checkOldTile) === false) {
-            self.submitted.push(self.letterHistory[j]);
-            console.log(_.pluck(self.submitted, 'letter'));
-            self.checkForCompoundWord();
+          var tileToCheck = history[j];
+          var placedTile = self.submitted[i].position;
+          var positions = _.pluck(self.submitted, 'position');
+          if (direction === 'horizontal') {
+            if (boardTileService.eitherSide(tileToCheck, placedTile) === true && _.contains(positions, tileToCheck) === false) {
+              self.submitted.push(self.letterHistory[j]);
+              self.checkForCompoundWord();
+            }
           }
+          // if anything is the same direction, its part of the same word
+          // if its a different direction, then it is an extra word
         }
-        // if anything is the same direction, its part of the same word
-        // if its a different direction, then it is an extra word
-
       }
+    self.organiseSubmission();
 
   };
 
@@ -167,7 +167,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     self.boardDisplay[tile] = self.selected;
     self.submitted.push({ 'letter': self.selected, 'position': tile, 'blank': isBlank });
     self.input.push({ 'letter': self.selected, 'position': tile, 'blank': isBlank });
-    self.organiseInput();
+    self.organiseSubmission();
     self.selected = null;
   };
 
@@ -179,8 +179,8 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     }
   };
 
-  self.organiseInput = function() {
-    self.input = wordService.organiseInput(self.input);
+  self.organiseSubmission = function() {
+    self.submitted = wordService.organiseSubmission(self.submitted);
   };
 
   self.swapLetter = function() {
