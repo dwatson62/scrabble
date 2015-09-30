@@ -59,9 +59,12 @@ app.factory('boardTileFactory', function() {
     }
   };
 
-  BoardTile.prototype.showLaidTiles = function(x, y, playerInput) {
+  BoardTile.prototype.showLaidTiles = function(x, y, playerInput, letterHistory) {
     for (var i in playerInput) {
       if (this.convert(x, y) === playerInput[i].position) { return true; }
+    }
+    for (var j in letterHistory) {
+      if (this.convert(x, y) === letterHistory[j].position) { return true; }
     }
   };
 

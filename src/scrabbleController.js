@@ -71,10 +71,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
           // Display board tiles at correct opacity
 
   self.showBoardTiles = function(x, y) {
-    // if (self.totalScore === 0 && self.input.length === 0) {
-    //   return boardTileService.showStartingTile(x, y);
-    // }
-    if (boardTileService.showLaidTiles(x, y, self.input) === true) {
+    if (boardTileService.showLaidTiles(x, y, self.input, self.letterHistory) === true) {
       return 'board-tiles-active';
     }
     if (self.input.length === 0) { return 'board-tiles-active'; }
@@ -82,6 +79,14 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
       return boardTileService.showWhenOneTileLaid(x, y, self.input);
     }
     return boardTileService.showBoardTiles(x, y, self.input);
+  };
+
+  self.startingTile = function(x, y) {
+    // Not in use yet.
+    // Will force players to place tiles on the star at start of game
+    if (self.totalScore === 0 && self.input.length === 0) {
+      return boardTileService.showStartingTile(x, y);
+    }
   };
 
   self.disabledTile = function(x, y) {
