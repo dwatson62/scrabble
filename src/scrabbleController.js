@@ -125,30 +125,14 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
   };
 
   self.checkForCompoundWord = function() {
-    for (var j in self.letterHistory) {
-      for (var i in self.submitted) {
-
-        var tileToCheck = self.letterHistory[j].position;
-        var tileToCheckCoords = boardTileService.reverseConvert(tileToCheck);
-        var placedTile = self.submitted[i].position;
-        var placedTileCoords = boardTileService.reverseConvert(placedTile);
-
-        if (boardTileService.horizontal === true) {
-          if (boardTileService.eitherSide(tileToCheckCoords, placedTileCoords) === true && self.tileAlreadyAdded(tileToCheck) === false) {
-            self.addLetterToCompoundWord(self.letterHistory[j]);
-          }
-        } else if (boardTileService.vertical === true) {
-          if (boardTileService.aboveOrBelow(tileToCheckCoords, placedTileCoords) === true && self.tileAlreadyAdded(tileToCheck) === false) {
-            self.addLetterToCompoundWord(self.letterHistory[j]);
-          }
-        } else {
-          if (boardTileService.checkAllSides(tileToCheckCoords, placedTileCoords) === true && self.tileAlreadyAdded(tileToCheck) === false) {
-            self.submitted.push(self.letterHistory[j]);
-            boardTileService.determineDirection(self.submitted);
-            self.checkForCompoundWord();
-          }
+    for (var i in self.letterHistory) {
+      for (var j in self.submitted) {
+        var tileToCheck = self.letterHistory[i].position;
+        var placedTile = self.submitted[j].position;
+        var isValidtile = boardTileService.checkNextTile(tileToCheck, placedTile);
+        if (isValidtile === true && self.tileAlreadyAdded(tileToCheck) === false) {
+          self.addToCompoundWord(self.letterHistory[i]);
         }
-
       }
     }
     self.organiseSubmission();
@@ -158,8 +142,9 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     return _.contains(_.pluck(self.submitted, 'position'), tileToCheck);
   };
 
-  self.addLetterToCompoundWord = function(letter) {
+  self.addToCompoundWord = function(letter) {
     self.submitted.push(letter);
+    boardTileService.determineDirection(self.submitted);
     self.checkForCompoundWord();
   };
 

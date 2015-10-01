@@ -6,10 +6,12 @@ app.factory('boardTileFactory', function() {
     this.horizontal = false;
   };
 
-  BoardTile.prototype.direction = function() {
-    if (this.vertical === true) { return 'vertical'; }
-    else if (this.horizontal === true) { return 'horizontal'; }
-    else { return 'none'; }
+  BoardTile.prototype.checkNextTile = function(tileToCheck, placedTile) {
+    var tileToCheckCoords = this.reverseConvert(tileToCheck);
+    var placedTileCoords = this.reverseConvert(placedTile);
+    if (this.vertical === true) { return this.aboveOrBelow(tileToCheckCoords, placedTileCoords); }
+    else if (this.horizontal === true) { return this.eitherSide(tileToCheckCoords, placedTileCoords); }
+    else { return this.checkAllSides(tileToCheckCoords, placedTileCoords); }
   };
 
   BoardTile.prototype.resetDirection = function() {
@@ -114,19 +116,19 @@ app.factory('boardTileFactory', function() {
   };
 
   BoardTile.prototype.oneTileAbove = function(tileToCheck, placedTile) {
-    return placedTile[0] - 1 == tileToCheck[0] && placedTile[1] == tileToCheck[1];
+    return placedTile[0] - 1 === tileToCheck[0] && placedTile[1] === tileToCheck[1];
   };
 
   BoardTile.prototype.oneTileBelow = function(tileToCheck, placedTile) {
-    return placedTile[0] + 1 == tileToCheck[0] && placedTile[1] == tileToCheck[1];
+    return placedTile[0] + 1 === tileToCheck[0] && placedTile[1] === tileToCheck[1];
   };
 
   BoardTile.prototype.oneTileToLeft = function(tileToCheck, placedTile) {
-    return placedTile[0] == tileToCheck[0] && placedTile[1] - 1 == tileToCheck[1];
+    return placedTile[0] === tileToCheck[0] && placedTile[1] - 1 === tileToCheck[1];
   };
 
   BoardTile.prototype.oneTileToRight = function(tileToCheck, placedTile) {
-    return placedTile[0] == tileToCheck[0] && placedTile[1] + 1 == tileToCheck[1];
+    return placedTile[0] === tileToCheck[0] && placedTile[1] + 1 === tileToCheck[1];
   };
 
   return BoardTile;
