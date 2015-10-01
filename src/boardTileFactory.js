@@ -8,7 +8,8 @@ app.factory('boardTileFactory', function() {
 
   BoardTile.prototype.direction = function() {
     if (this.vertical === true) { return 'vertical'; }
-    return 'horizontal';
+    if (this.horizontal === true) { return 'horizontal'; }
+    return 'none';
   };
 
   BoardTile.prototype.resetDirection = function() {
@@ -55,6 +56,7 @@ app.factory('boardTileFactory', function() {
   };
 
   BoardTile.prototype.determineDirection = function(playerInput) {
+    if (playerInput.length === 1) { return; }
     var placedTile = this.reverseConvert(playerInput[0].position);
     var tileToCheck = this.reverseConvert(playerInput[1].position);
     if (this.aboveOrBelow(tileToCheck, placedTile) === true) {
@@ -77,7 +79,7 @@ app.factory('boardTileFactory', function() {
 
   BoardTile.prototype.showWhenOneTileLaid = function(tileToCheck, playerInput) {
     var placedTile = this.reverseConvert(playerInput[0].position);
-    if (this.eitherSide(tileToCheck, placedTile) || this.aboveOrBelow(tileToCheck, placedTile) ) {
+    if (this.checkAllSides(tileToCheck, placedTile) ) {
       return 'board-tiles-active';
     }
     return 'board-tiles-inactive';
@@ -97,6 +99,10 @@ app.factory('boardTileFactory', function() {
     placedTile = this.reverseConvert(_.last(playerInput).position);
     if (this.aboveOrBelow(tileToCheck, placedTile) === true) { return 'board-tiles-active'; }
     return 'board-tiles-inactive';
+  };
+
+  BoardTile.prototype.checkAllSides = function(tileToCheck, placedTile) {
+    return this.aboveOrBelow(tileToCheck, placedTile) || this.eitherSide(tileToCheck, placedTile);
   };
 
   BoardTile.prototype.eitherSide = function(tileToCheck, placedTile) {

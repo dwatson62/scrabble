@@ -16,11 +16,19 @@ describe('Scrabble Controller', function() {
                           { 'value': 't', 'status': 'ready' }];
   }));
 
-  place = function(word, y) {
+  placeHorizontally = function(word, y) {
     if (y === undefined) { y = 0; }
     word = word.split('');
     for (i = 0; i < word.length; i ++) {
       placeLetter(word[i], 4, y + i);
+    }
+  };
+
+  placeVertically = function(word, x) {
+    if (x === undefined) { x = 0; }
+    word = word.split('');
+    for (i = 0; i < word.length; i ++) {
+      placeLetter(word[i], x + i, 4);
     }
   };
 
@@ -37,7 +45,7 @@ describe('Scrabble Controller', function() {
   describe('Points', function() {
 
     it('Scores correct points for a word', function() {
-      place('trip');
+      placeHorizontally('trip');
       ctrl.getPoints('trip', 'definition');
       expect(ctrl.totalScore).toEqual(6);
     });
@@ -47,7 +55,7 @@ describe('Scrabble Controller', function() {
   describe('History', function() {
 
     it('Keeps a history of played words', function() {
-      place('trip');
+      placeHorizontally('trip');
       ctrl.getPoints('trip', 'definition');
       expect(ctrl.history[0]).toEqual({ 'word': 'trip', 'points': 6, 'definition': 'definition' });
     });
@@ -56,13 +64,13 @@ describe('Scrabble Controller', function() {
 
   describe('Placing letters', function() {
 
-    it('Can place a single letter on board', function() {
+    it('Can placeHorizontally a single letter on board', function() {
       placeLetter('i', 1, 0);
       expect(ctrl.input).toEqual([{ letter: 'i', position: 'B1', 'blank': false }]);
     });
 
-    it('Can place many letters on the board', function() {
-      place('put');
+    it('Can placeHorizontally many letters on the board', function() {
+      placeHorizontally('put');
       expect(ctrl.input).toEqual([{ letter: 'p', position: 'E1', 'blank': false },
                                   { letter: 'u', position: 'E2', 'blank': false },
                                   { letter: 't', position: 'E3', 'blank': false }
@@ -89,7 +97,7 @@ describe('Scrabble Controller', function() {
                                   ]);
     });
 
-    it('When placed all over the place it can sort them correctly', function() {
+    it('When placed all over the placeHorizontally it can sort them correctly', function() {
       placeLetter('u', 10, 8);
       placeLetter('p', 9, 8);
       placeLetter('t', 11, 8);
@@ -108,13 +116,13 @@ describe('Scrabble Controller', function() {
                           { 'value': 's', 'status': 'ready' },
                           { 'value': 't', 'status': 'ready' },
                           { 'value': 'i', 'status': 'ready' },
-                          { 'value': 'o', 'status': 'ready' },
+                          { 'value': 'e', 'status': 'ready' },
                           { 'value': 'r', 'status': 'ready' },
                           { 'value': 't', 'status': 'ready' }];
     });
 
     it('with letters to the left', function() {
-      place('trip');
+      placeHorizontally('trip');
       ctrl.isAWord('trip', 'definition');
       placeLetter('s', 4, 4);
       var word = _.pluck(ctrl.submitted, 'letter').join('');
@@ -122,11 +130,20 @@ describe('Scrabble Controller', function() {
     });
 
     it('with letters to the right', function() {
-      place('trip', 1);
+      placeHorizontally('trip', 1);
       ctrl.isAWord('trip', 'definition');
       placeLetter('s', 4, 0);
       var word = _.pluck(ctrl.submitted, 'letter').join('');
       expect(word).toEqual('strip');
+    });
+
+    it('with letters above', function() {
+      placeVertically('trip', 2);
+      ctrl.isAWord('trip', 'definition');
+      placeLetter('s', 0, 4);
+      placeLetter('e', 1, 4);
+      var word = _.pluck(ctrl.submitted, 'letter').join('');
+      expect(word).toEqual('setrip');
     });
 
   });
@@ -153,13 +170,13 @@ describe('Scrabble Controller', function() {
     it('player can swap an unwanted letter for a random one', function() {
       ctrl.selectLetter(0);
       ctrl.swapLetter();
-      // Letter p gets deleted, and other letters shift one place to left
+      // Letter p gets deleted, and other letters shift one placeHorizontally to left
       expect(ctrl.player1Letters[0].value).toEqual('u');
       expect(ctrl.player1Letters.length).toEqual(7);
     });
 
     it('stores history of where letters are placed', function() {
-      place('put');
+      placeHorizontally('put');
       ctrl.isAWord('put', 'definition');
       expect(ctrl.letterHistory).toEqual([
         { letter: 'p', position: 'E1', 'blank': false },

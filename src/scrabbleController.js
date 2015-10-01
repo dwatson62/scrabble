@@ -130,10 +130,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
       for (var j in history) {
         for (var i in self.submitted) {
 
-          // if pos is within one square of anything in self.input, it must be added
-          // to 'word' to make the compound or perpendicular word
-          // and then anything within one square of that must also be added
-
+          // not working until I can calculate the direction
 
           ////
           if (self.submitted.length > 10) {
@@ -147,14 +144,23 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
           var placedTile = self.submitted[i].position;
           var placedTileCoords = boardTileService.reverseConvert(self.submitted[i].position);
           var positions = _.pluck(self.submitted, 'position');
-          if (direction === 'horizontal') {
+
+          if (direction === 'none') {
+            if (boardTileService.checkAllSides(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
+              self.submitted.push(self.letterHistory[j]);
+              self.checkForCompoundWord();
+            }
+          } else if (direction === 'horizontal') {
             if (boardTileService.eitherSide(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
               self.submitted.push(self.letterHistory[j]);
               self.checkForCompoundWord();
             }
+          } else if (direction === 'vertical') {
+            if (boardTileService.aboveOrBelow(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
+              self.submitted.push(self.letterHistory[j]);
+              self.checkForCompoundWord();
+            }
           }
-          // if anything is the same direction, its part of the same word
-          // if its a different direction, then it is an extra word
         }
       }
     self.organiseSubmission();
