@@ -113,7 +113,7 @@ describe('Scrabble Controller', function() {
                           { 'value': 't', 'status': 'ready' }];
     });
 
-    it('can make a simple compound word', function() {
+    it('with letters to the left', function() {
       place('trip');
       ctrl.isAWord('trip', 'definition');
       placeLetter('s', 4, 4);

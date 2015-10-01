@@ -11,11 +11,13 @@ Making Scrabble in Angular. Because why not. Available at [https://scrabble62.he
 
 Current Version:
 
+![screenshot](https://github.com/dwatson62/scrabble/blob/master/public/images/screenshot.jpg)
+
 It is a one player game, players can place a word anywhere on the board and score points for a valid word, and 0 points for an invalid word.
 
 To play, click on a letter, and then the tile where you wish to place it. Once you have placed your word, click "Play Word" to submit. If you change your mind, the "Clear" button will reset your selection. You can swap an unwanted letter by selecting it, and then clicking "Swap Letter". Bonus points can be scored by placing letters on the appropriate tiles. Selecting a blank tile and then a position on the board will display a popup, where you can choose what letter to replace it with. Blanks score 0 points.
 
-Words cannot intersect with each other just yet.
+Words can currently intersect with each other horizontally.
 
 When the game runs low on letters, the console merely says game over.
 

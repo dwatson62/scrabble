@@ -73,14 +73,14 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
 
   self.showBoardTiles = function(x, y) {
     var tileToCheck = [x, y];
-    if (boardTileService.showLaidTiles(tileToCheck, self.input, self.letterHistory) === true) {
+    if (boardTileService.showLaidTiles(tileToCheck, self.submitted, self.letterHistory) === true) {
       return 'board-tiles-active';
     }
-    if (self.input.length === 0) { return 'board-tiles-active'; }
-    if (self.input.length === 1) {
-      return boardTileService.showWhenOneTileLaid(tileToCheck, self.input);
+    if (self.submitted.length === 0) { return 'board-tiles-active'; }
+    if (self.submitted.length === 1) {
+      return boardTileService.showWhenOneTileLaid(tileToCheck, self.submitted);
     }
-    return boardTileService.showBoardTiles(tileToCheck, self.input);
+    return boardTileService.showBoardTiles(tileToCheck, self.submitted);
   };
 
   self.startingTile = function(x, y) {
@@ -134,11 +134,21 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
           // to 'word' to make the compound or perpendicular word
           // and then anything within one square of that must also be added
 
+
+          ////
+          if (self.submitted.length > 10) {
+            console.log('infinite loop');
+            break;
+          }
+          ////
+
           var tileToCheck = history[j];
+          var tileToCheckCoords = boardTileService.reverseConvert(history[j]);
           var placedTile = self.submitted[i].position;
+          var placedTileCoords = boardTileService.reverseConvert(self.submitted[i].position);
           var positions = _.pluck(self.submitted, 'position');
           if (direction === 'horizontal') {
-            if (boardTileService.eitherSide(tileToCheck, placedTile) === true && _.contains(positions, tileToCheck) === false) {
+            if (boardTileService.eitherSide(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
               self.submitted.push(self.letterHistory[j]);
               self.checkForCompoundWord();
             }
@@ -148,7 +158,6 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
         }
       }
     self.organiseSubmission();
-
   };
 
   self.assignLetterToBlank = function(tile) {
