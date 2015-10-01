@@ -42,7 +42,7 @@ describe('Scrabble Controller', function() {
     expect(ctrl).toBeDefined();
   });
 
-  xdescribe('Points', function() {
+  describe('Points', function() {
 
     it('Scores correct points for a word', function() {
       placeHorizontally('trip');
@@ -52,7 +52,7 @@ describe('Scrabble Controller', function() {
 
   });
 
-  xdescribe('History', function() {
+  describe('History', function() {
 
     it('Keeps a history of played words', function() {
       placeHorizontally('trip');
@@ -62,7 +62,7 @@ describe('Scrabble Controller', function() {
 
   });
 
-  xdescribe('Placing letters', function() {
+  describe('Placing letters', function() {
 
     it('Can placeHorizontally a single letter on board', function() {
       placeLetter('i', 1, 0);

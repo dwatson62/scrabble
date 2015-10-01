@@ -21,6 +21,8 @@ Words can currently intersect with each other horizontally and vertically. Canno
 
 When the game runs low on letters, the console merely says game over.
 
+The main scrabble controller is very large, and I would like to separate it out into separate ones, and to use an Angular Service to hold data. It's rather difficult to do now though, as the controller is rather complex.
+
 ## Installation
 
 The program requires access to the wordnik dictionary API. To get your token, visit [http://developer.wordnik.com/](http://developer.wordnik.com/)
