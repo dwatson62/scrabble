@@ -125,12 +125,9 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
   };
 
     self.checkForCompoundWord = function() {
-      var direction = boardTileService.direction();
       var history = _.pluck(self.letterHistory, 'position');
       for (var j in history) {
         for (var i in self.submitted) {
-
-          // not working until I can calculate the direction
 
           ////
           if (self.submitted.length > 10) {
@@ -145,19 +142,20 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
           var placedTileCoords = boardTileService.reverseConvert(self.submitted[i].position);
           var positions = _.pluck(self.submitted, 'position');
 
-          if (direction === 'none') {
-            if (boardTileService.checkAllSides(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
-              self.submitted.push(self.letterHistory[j]);
-              self.checkForCompoundWord();
-            }
-          } else if (direction === 'horizontal') {
+          if (boardTileService.horizontal === true) {
             if (boardTileService.eitherSide(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
               self.submitted.push(self.letterHistory[j]);
               self.checkForCompoundWord();
             }
-          } else if (direction === 'vertical') {
+          } else if (boardTileService.vertical === true) {
             if (boardTileService.aboveOrBelow(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
               self.submitted.push(self.letterHistory[j]);
+              self.checkForCompoundWord();
+            }
+          } else {
+            if (boardTileService.checkAllSides(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
+              self.submitted.push(self.letterHistory[j]);
+              boardTileService.determineDirection(self.submitted);
               self.checkForCompoundWord();
             }
           }

@@ -9,7 +9,7 @@ app.factory('boardTileFactory', function() {
   BoardTile.prototype.direction = function() {
     if (this.vertical === true) { return 'vertical'; }
     if (this.horizontal === true) { return 'horizontal'; }
-    return 'none';
+    else { return 'none'; }
   };
 
   BoardTile.prototype.resetDirection = function() {
@@ -127,10 +127,6 @@ app.factory('boardTileFactory', function() {
 
   BoardTile.prototype.oneTileToRight = function(tileToCheck, placedTile) {
     return placedTile[0] == tileToCheck[0] && placedTile[1] + 1 == tileToCheck[1];
-  };
-
-  BoardTile.prototype.checkForCompoundWord = function(word, pos) {
-
   };
 
   return BoardTile;
