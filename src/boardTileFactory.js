@@ -8,7 +8,7 @@ app.factory('boardTileFactory', function() {
 
   BoardTile.prototype.direction = function() {
     if (this.vertical === true) { return 'vertical'; }
-    if (this.horizontal === true) { return 'horizontal'; }
+    else if (this.horizontal === true) { return 'horizontal'; }
     else { return 'none'; }
   };
 

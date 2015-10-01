@@ -124,44 +124,43 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     self.checkForCompoundWord();
   };
 
-    self.checkForCompoundWord = function() {
-      var history = _.pluck(self.letterHistory, 'position');
-      for (var j in history) {
-        for (var i in self.submitted) {
+  self.checkForCompoundWord = function() {
+    for (var j in self.letterHistory) {
+      for (var i in self.submitted) {
 
-          ////
-          if (self.submitted.length > 10) {
-            console.log('infinite loop');
-            break;
+        var tileToCheck = self.letterHistory[j].position;
+        var tileToCheckCoords = boardTileService.reverseConvert(tileToCheck);
+        var placedTile = self.submitted[i].position;
+        var placedTileCoords = boardTileService.reverseConvert(placedTile);
+
+        if (boardTileService.horizontal === true) {
+          if (boardTileService.eitherSide(tileToCheckCoords, placedTileCoords) === true && self.tileAlreadyAdded(tileToCheck) === false) {
+            self.addLetterToCompoundWord(self.letterHistory[j]);
           }
-          ////
-
-          var tileToCheck = history[j];
-          var tileToCheckCoords = boardTileService.reverseConvert(history[j]);
-          var placedTile = self.submitted[i].position;
-          var placedTileCoords = boardTileService.reverseConvert(self.submitted[i].position);
-          var positions = _.pluck(self.submitted, 'position');
-
-          if (boardTileService.horizontal === true) {
-            if (boardTileService.eitherSide(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
-              self.submitted.push(self.letterHistory[j]);
-              self.checkForCompoundWord();
-            }
-          } else if (boardTileService.vertical === true) {
-            if (boardTileService.aboveOrBelow(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
-              self.submitted.push(self.letterHistory[j]);
-              self.checkForCompoundWord();
-            }
-          } else {
-            if (boardTileService.checkAllSides(tileToCheckCoords, placedTileCoords) === true && _.contains(positions, tileToCheck) === false) {
-              self.submitted.push(self.letterHistory[j]);
-              boardTileService.determineDirection(self.submitted);
-              self.checkForCompoundWord();
-            }
+        } else if (boardTileService.vertical === true) {
+          if (boardTileService.aboveOrBelow(tileToCheckCoords, placedTileCoords) === true && self.tileAlreadyAdded(tileToCheck) === false) {
+            self.addLetterToCompoundWord(self.letterHistory[j]);
+          }
+        } else {
+          if (boardTileService.checkAllSides(tileToCheckCoords, placedTileCoords) === true && self.tileAlreadyAdded(tileToCheck) === false) {
+            self.submitted.push(self.letterHistory[j]);
+            boardTileService.determineDirection(self.submitted);
+            self.checkForCompoundWord();
           }
         }
+
       }
+    }
     self.organiseSubmission();
+  };
+
+  self.tileAlreadyAdded = function(tileToCheck) {
+    return _.contains(_.pluck(self.submitted, 'position'), tileToCheck);
+  };
+
+  self.addLetterToCompoundWord = function(letter) {
+    self.submitted.push(letter);
+    self.checkForCompoundWord();
   };
 
   self.assignLetterToBlank = function(tile) {
