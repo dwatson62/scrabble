@@ -15,7 +15,9 @@ Current Version:
 
 It is a one player game, players can place a word anywhere on the board and score points for a valid word, and 0 points for an invalid word.
 
-To play, click on a letter, and then the tile where you wish to place it. Once you have placed your word, click "Play Word" to submit. If you change your mind, the "Clear" button will reset your selection. You can swap an unwanted letter by selecting it, and then clicking "Swap Letter". Bonus points can be scored by placing letters on the appropriate tiles. Selecting a blank tile and then a position on the board will display a popup, where you can choose what letter to replace it with. Blanks score 0 points.
+Clicking the 'Game Rules' button will toggle regular scrabble rules. With it on, you have to start on the star tile, and all words must intersect. With it off, you are free to place wherever you like.
+
+To play, click on a letter and the tile where you wish to place it. Once you have finished placing your word, click "Play Word" to submit. If you change your mind, the "Clear" button will reset your selection. You can swap an unwanted letter by selecting it, and then clicking "Swap Letter". Bonus points can be scored by placing letters on the appropriate tiles. Selecting a blank tile and then a position on the board will display a popup, where you can choose what letter to replace it with. Blanks score 0 points.
 
 Words can currently intersect with each other horizontally and vertically. Cannot yet make hook words.
 
@@ -29,7 +31,7 @@ The program requires access to the wordnik dictionary API. To get your token, vi
 
 - ``` git clone https://github.com/dwatson62/scrabble ```
 - ``` cd scrabble ```
-- ``` touch .env ``` and then add ``` APIKEY='your api key' ``` to the file
+- ``` touch .env ``` and then add ``` APIKEY=<your api key> ``` to the file
 - ``` npm start ```(this will install all node modules and bower components, then start the server)
 - Visit [http://localhost:3000](http://localhost:3000)
 

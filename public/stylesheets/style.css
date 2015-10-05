@@ -81,8 +81,6 @@ a {
 .display {
   border: solid black 2px;
   background-color: white;
-  padding-top: 5px;
-  height: 100%;
   padding-right: 15px;
   padding-left: 15px;
   border-radius: 15px;
@@ -102,4 +100,21 @@ a {
   width: 150px;
   text-align: center;
   padding-top: 2px;
+  font-size: 24px;
+  height: 100%;
+}
+
+.word-display {
+  padding-top: 5px;
+  max-height: 100px;
+  overflow: scroll;
+}
+
+.word-history {
+  max-height: 745px;
+  overflow: scroll;
+}
+
+.player-buttons {
+  line-height: 50px;
 }

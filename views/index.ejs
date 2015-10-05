@@ -20,13 +20,13 @@
   </head>
   <body ng-controller='ScrabbleController as scrbCtrl' ng-init='scrbCtrl.setup()'>
     <div class='container'>
+      <% include dashboard %>
       <div class="row">
         <div class="col-md-8">
-          <% include playerLetters %>
           <% include board %>
         </div>
         <div class="col-md-4">
-         <% include dashboard %>
+         <% include history %>
         </div>
       </div>
     </div>

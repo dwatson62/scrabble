@@ -2,7 +2,6 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
 
   var self = this;
 
-  self.intersecting = false;
   self.gameRules = false;
   self.player1Letters = [];
   self.letterHistory = [];

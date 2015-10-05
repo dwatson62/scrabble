@@ -1,7 +1,7 @@
 app.factory('boardTileFactory', function() {
 
   var BoardTile = function() {
-    this.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O'];
+    this.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'M', 'N', 'O', 'P', 'Q'];
     this.vertical = false;
     this.horizontal = false;
   };
