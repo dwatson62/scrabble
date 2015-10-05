@@ -212,4 +212,41 @@ describe('Scrabble Controller', function() {
 
   });
 
+  describe('Playing proper game rules', function() {
+
+    beforeEach(function() {
+      ctrl.toggleGameRules();
+    });
+
+    it('player has to place first letter on centre star', function() {
+      placeLetter('p', 7, 7);
+      expect(ctrl.input.length).toEqual(1);
+    });
+
+    it('player cannot place a letter anywhere else', function() {
+      placeLetter('p', 0, 0);
+      expect(ctrl.input.length).toEqual(0);
+    });
+
+    it('after first turn, "play word" button is disabled if they do not intersect', function() {
+      placeLetter('p', 7, 7);
+      placeLetter('u', 7, 8);
+      placeLetter('t', 7, 9);
+      ctrl.isAWord('trip', 'definition');
+      placeHorizontally('it', 1);
+      expect(ctrl.disablePlayWord()).toEqual(true);
+    });
+
+    it('after first turn, "play word" button is enabled if they do intersect', function() {
+      placeLetter('p', 7, 7);
+      placeLetter('u', 7, 8);
+      placeLetter('t', 7, 9);
+      ctrl.isAWord('trip', 'definition');
+      placeLetter('i', 6, 9);
+      expect(ctrl.disablePlayWord()).toEqual(false);
+    });
+
+
+  });
+
 });

@@ -2,6 +2,8 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
 
   var self = this;
 
+  self.intersecting = false;
+  self.gameRules = false;
   self.player1Letters = [];
   self.letterHistory = [];
   self.history = [];
@@ -13,6 +15,15 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
   var wordService = new wordsFactory();
 
           // Game setup
+
+  self.toggleGameRules =  function() {
+    self.gameRules = !self.gameRules;
+  };
+
+  self.gameRulesButton = function() {
+    if (self.gameRules === true) { return 'On'; }
+    return 'Off';
+  };
 
   self.setup = function() {
     self.bag = gameService.createBag();
@@ -28,6 +39,14 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
       return;
     }
     self.player1Letters = gameService.distributeLetters(self.player1Letters, self.bag);
+  };
+
+  self.disablePlayWord = function() {
+    if (self.input.length === 0) { return true; }
+    if (self.gameRules === true && self.intersecting === false && self.history.length !== 0) {
+      return true;
+    }
+    return false;
   };
 
           // Rendering correct tiles
@@ -69,6 +88,9 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
           // Display board tiles at correct opacity
 
   self.showBoardTiles = function(x, y) {
+    if (self.history.length === 0 && self.input.length === 0 && self.gameRules === true) {
+      return boardTileService.showStartingTile(x, y);
+    }
     var tileToCheck = [x, y];
     if (boardTileService.showLaidTiles(tileToCheck, self.submitted, self.letterHistory) === true) {
       return 'board-tiles-active';
@@ -78,14 +100,6 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
       return boardTileService.showWhenOneTileLaid(tileToCheck, self.submitted);
     }
     return boardTileService.showBoardTiles(tileToCheck, self.submitted);
-  };
-
-  self.startingTile = function(x, y) {
-    // Not in use yet.
-    // Will force players to place tiles on the star at start of game
-    if (self.totalScore === 0 && self.input.length === 0) {
-      return boardTileService.showStartingTile(x, y);
-    }
   };
 
   self.disabledTile = function(x, y) {
@@ -130,6 +144,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
         var isValidtile = boardTileService.checkNextTile(tileToCheck, placedTile);
         var tileAlreadyAdded = self.tileAlreadyAdded(tileToCheck);
         if (isValidtile === true && tileAlreadyAdded === false) {
+          self.intersecting = true;
           self.addToCompoundWord(self.letterHistory[i]);
         }
       }
@@ -254,6 +269,7 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
   self.resetInput = function() {
     self.input = [];
     self.submitted = [];
+    self.intersecting = false;
   };
 
 }]);

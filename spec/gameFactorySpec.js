@@ -20,8 +20,8 @@ describe('Game Factory', function() {
     expect(bag).not.toEqual(sorted);
   });
 
-  it('creates a board with 60 bonus squares', function() {
-    expect(_.keys(gameService.createBoard()).length).toEqual(60);
+  it('creates a board with 61 special squares', function() {
+    expect(_.keys(gameService.createBoard()).length).toEqual(61);
   });
 
   it('distributes 7 letters when player has none', function() {
@@ -87,7 +87,7 @@ describe('Game Factory', function() {
     it('a bonus tile can only be used once', function() {
       var word = [{letter: 't', position: 'B6'}, {letter: 'r', position: 'B7'}, {letter: 'i', position: 'B8'}, {letter: 'p', position: 'B9'}];
       gameService.getPoints(word);
-      expect(_.keys(gameService.bonuses).length).toEqual(59);
+      expect(_.keys(gameService.bonuses).length).toEqual(60);
     });
 
   });

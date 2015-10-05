@@ -13,7 +13,7 @@ app.factory('gameFactory', function() {
         'E5': 'doubleword', 'E11': 'doubleword',
         'F2': 'tripleletter', 'F6': 'tripleletter', 'F10': 'tripleletter', 'F14': 'tripleletter',
         'G3': 'doubleletter', 'G7': 'doubleletter', 'G9': 'doubleletter', 'G13': 'doubleletter',
-        'H1': 'tripleword', 'H4': 'doubleletter', 'H12': 'doubleletter', 'H15': 'tripleword',
+        'H1': 'tripleword', 'H4': 'doubleletter', 'H8': 'star', 'H12': 'doubleletter', 'H15': 'tripleword',
         'I3': 'doubleletter', 'I7': 'doubleletter', 'I9': 'doubleletter', 'I13': 'doubleletter',
         'J2': 'tripleletter', 'J6': 'tripleletter', 'J10': 'tripleletter', 'J14': 'tripleletter',
         'K5': 'doubleword', 'K11': 'doubleword',
