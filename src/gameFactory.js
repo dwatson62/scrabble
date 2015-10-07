@@ -47,24 +47,25 @@ app.factory('gameFactory', function() {
     return currentLetters;
   };
 
-  Game.prototype.swapLetter = function(currentLetters, bag, index) {
+  Game.prototype.swapLetter = function(currentLetters, bag) {
+    var index = _.indexOf(_.pluck(currentLetters, 'status'), 'selected');
     currentLetters.splice(index, 1);
     currentLetters = this.distributeLetters(currentLetters, bag);
     return currentLetters;
   };
 
   Game.prototype.getPoints = function(input) {
-    var currentBonuses = [/* word bonus */ 1, /* letter bonus */ 1];
+    var currentBonuses = { 'word': 1 };
     var total = 0;
     for (var i in input) {
-      currentBonuses[1] = 1;
+      currentBonuses.letter = 1;
       var position = input[i].position;
       currentBonuses = this.getBonuses(position, currentBonuses);
       var letter = this.checkForBlankOrLetter(input[i]);
-      total += (letterValues[letter].points * currentBonuses[1]);
-      this.removeBonusTile(position);
+      total += (letterValues[letter].points * currentBonuses.letter);
+      delete this.bonuses[position];
     }
-    total *= currentBonuses[0];
+    total *= currentBonuses.word;
     total = this.bingoBonus(input, total);
     return total;
   };
@@ -72,10 +73,10 @@ app.factory('gameFactory', function() {
   Game.prototype.getBonuses = function(position, currentBonuses) {
     if (_.has(this.bonuses, position) === true) {
       position = this.bonuses[position];
-      if (position === 'doubleword') { currentBonuses[0] *= 2; }
-      if (position === 'tripleword') { currentBonuses[0] *= 3; }
-      if (position === 'doubleletter') { currentBonuses[1] = 2; }
-      if (position === 'tripleletter') { currentBonuses[1] = 3; }
+      if (position === 'doubleword') { currentBonuses.word *= 2; }
+      if (position === 'tripleword') { currentBonuses.word *= 3; }
+      if (position === 'doubleletter') { currentBonuses.letter = 2; }
+      if (position === 'tripleletter') { currentBonuses.letter = 3; }
     }
     return currentBonuses;
   };
@@ -88,10 +89,6 @@ app.factory('gameFactory', function() {
   Game.prototype.bingoBonus = function(input, total) {
     if (input.length === 7) { total += 50; }
     return total;
-  };
-
-  Game.prototype.removeBonusTile = function(position) {
-    delete this.bonuses[position];
   };
 
   return Game;

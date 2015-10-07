@@ -57,7 +57,7 @@ describe('Scrabble Controller', function() {
     it('Keeps a history of played words', function() {
       placeHorizontally('trip');
       ctrl.getPoints('trip', 'definition');
-      expect(ctrl.history[0]).toEqual({ 'word': 'trip', 'points': 6, 'definition': 'definition' });
+      expect(ctrl.wordHistory[0]).toEqual({ 'word': 'trip', 'points': 6, 'definition': 'definition' });
     });
 
   });
