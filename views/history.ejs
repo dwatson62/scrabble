@@ -1,5 +1,5 @@
 <div class='word-history'>
-  <ul class='display word-display' ng-repeat='history in scrbCtrl.history | orderBy:"-"'>
+  <ul class='display word-display' ng-repeat='history in scrbCtrl.wordHistory | orderBy:"-"'>
     <h4> <i> {{ history.word }} - </i> <b> {{ history.points }} points </b> </h4>
     <p> {{ history.definition }} </p>
   </ul>
