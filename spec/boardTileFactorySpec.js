@@ -32,32 +32,32 @@ describe('BoardTile Factory', function() {
 
     it('Knows when a tile is to the left of another', function() {
       var tileToCheck = [1, 0];
-      expect(boardTile.oneTileToLeft(tileToCheck, placedTile)).toEqual(true);
+      expect(boardTile.isOneTileToLeft(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Knows when a tile is to the right of another', function() {
       var tileToCheck = [1, 2];
-      expect(boardTile.oneTileToRight(tileToCheck, placedTile)).toEqual(true);
+      expect(boardTile.isOneTileToRight(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Can check either side', function() {
       var tileToCheck = [1, 0];
-      expect(boardTile.eitherSide(tileToCheck, placedTile)).toEqual(true);
+      expect(boardTile.isEitherSide(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Knows when a tile is below another', function() {
       var tileToCheck = [2, 1];
-      expect(boardTile.oneTileBelow(tileToCheck, placedTile)).toEqual(true);
+      expect(boardTile.isOneTileBelow(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Knows when a tile is above another', function() {
       var tileToCheck = [0, 1];
-      expect(boardTile.oneTileAbove(tileToCheck, placedTile)).toEqual(true);
+      expect(boardTile.isOneTileAbove(tileToCheck, placedTile)).toEqual(true);
     });
 
     it('Can check above and below', function() {
       var tileToCheck = [2, 1];
-      expect(boardTile.aboveOrBelow(tileToCheck, placedTile)).toEqual(true);
+      expect(boardTile.isAboveOrBelow(tileToCheck, placedTile)).toEqual(true);
     });
 
   });
