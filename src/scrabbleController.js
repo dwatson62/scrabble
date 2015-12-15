@@ -15,6 +15,14 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
 
           // Game setup
 
+  self.showGameRulesButton = function() {
+    $http.get('/config').
+      then(function(response) {
+        if (response.data.env === 'production') { self.gameRules = true; }
+        self.gameRules = false;
+      });
+  };
+
   self.toggleGameRules =  function() {
     self.gameRules = !self.gameRules;
   };

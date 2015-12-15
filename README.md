@@ -13,11 +13,9 @@ Current Version:
 
 ![screenshot](https://github.com/dwatson62/scrabble/blob/master/public/images/screenshot.jpg)
 
-It is a one player game, players can place a word anywhere on the board and score points for a valid word, and 0 points for an invalid word.
+Currently a one player game, players can score points for a valid word, and 0 points for an invalid word.
 
-Clicking the 'Game Rules' button will toggle regular scrabble rules. With it on, you have to start on the star tile, and all words must intersect. With it off, you are free to place wherever you like.
-
-To play, click on a letter and the tile where you wish to place it. Once you have finished placing your word, click "Play Word" to submit. If you change your mind, the "Clear" button will reset your selection. You can swap an unwanted letter by selecting it, and then clicking "Swap Letter". Bonus points can be scored by placing letters on the appropriate tiles. Selecting a blank tile and then a position on the board will display a popup, where you can choose what letter to replace it with. Blanks score 0 points.
+To play the game, click on a letter of your choice and the centre tile. You may only place tiles next to previously laid ones. Once you have finished placing your word, click "Play Word" to submit. If you change your mind, the "Clear" button will reset your selection. You can swap an unwanted letter by selecting it, and then clicking "Swap Letter". Bonus points can be scored by placing letters on the appropriate tiles, or by using all your letters in one turn. Selecting a blank tile and then a position on the board will display a popup, where you can choose what letter to replace it with. Blanks score 0 points.
 
 Words can currently intersect with each other horizontally and vertically. Cannot yet make hook words.
 
@@ -35,6 +33,8 @@ The program requires access to the wordnik dictionary API. To get your token, vi
 - ``` npm start ```(this will install all node modules and bower components, then start the server)
 - Visit [http://localhost:3000](http://localhost:3000)
 
+During development environment, you have the option of toggling the game rules. Clicking the 'Game Rules' button will use regular scrabble rules. With it off, you are free to place tiles wherever you like.
+
 ## To run the tests after installation
 
 #### Unit tests
@@ -48,6 +48,11 @@ In seperate windows:
 - ``` npm start ```
 - ``` webdriver-manager update ``` then ``` webdriver-manager start ```
 - ``` protractor spec/e2e/conf.js ```
+
+## To do
+
+- Allow players to make hook words
+- Implement a better game over
 
 ## Technologies Used
 

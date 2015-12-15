@@ -7,6 +7,10 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
+router.get('/config', function(req, res, next) {
+  return res.json({ env: process.env.NODE_ENV });
+});
+
 router.get('/word', function(req, res, next) {
   var url = 'http://api.wordnik.com:80/v4/word.json/';
   var wordDef = req.query.word + '/definitions?';
