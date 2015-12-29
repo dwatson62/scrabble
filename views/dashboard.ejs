@@ -10,6 +10,7 @@
 <button class="btn btn-primary" id='play-word' ng-disabled='scrbCtrl.disablePlayWord()' ng-click='scrbCtrl.playWord()'>Play Word</button>
 <button class="btn btn-primary" id='clear-word' ng-disabled='scrbCtrl.input.length === 0' ng-click='scrbCtrl.clear()'>Clear</button>
 <button class="btn btn-primary" ng-disabled='scrbCtrl.selected === null' ng-click='scrbCtrl.swapLetter()'>Swap Letter</button>
+<button class="btn btn-primary" ng-click='scrbCtrl.shuffleLetters()'>Shuffle Letters</button>
 <button class="btn btn-primary" ng-init='scrbCtrl.showGameRulesButton()' id='rules-btn' ng-hide='scrbCtrl.gameRules' ng-disabled='scrbCtrl.history.length > 0' ng-click='scrbCtrl.toggleGameRules()'>Game Rules {{ scrbCtrl.gameRulesButton() }}</button>
 
 &nbsp

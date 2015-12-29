@@ -55,6 +55,10 @@ app.controller('ScrabbleController', ['$http', 'wordsFactory', 'gameFactory', 'b
     return false;
   };
 
+  self.shuffleLetters = function() {
+    self.player1Letters = _.shuffle(self.player1Letters);
+  };
+
           // Rendering correct tiles
 
   self.tile = function(x, y) {

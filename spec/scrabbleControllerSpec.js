@@ -180,6 +180,16 @@ describe('Scrabble Controller', function() {
       expect(ctrl.player1Letters.length).toEqual(7);
     });
 
+    it('can shuffle letters', function() {
+      ctrl.distributeNewLetters();
+      var oldLetters = ctrl.player1Letters;
+      var sortedOldLetters = _.sortBy(ctrl.player1Letters, 'value');
+      ctrl.shuffleLetters();
+      var sortedNewLetters = _.sortBy(ctrl.player1Letters, 'value');
+      expect(sortedOldLetters).toEqual(sortedNewLetters);
+      expect(oldLetters).not.toEqual(ctrl.player1Letters);
+    });
+
     it('after a correct word, player replaces letters to always have 7', function() {
       var word = 'eat';
       var definition = 'To take into the body by the mouth for digestion or absorption.';

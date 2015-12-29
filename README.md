@@ -15,13 +15,13 @@ Current Version:
 
 Currently a one player game, players can score points for a valid word, and 0 points for an invalid word.
 
-To play the game, click on a letter of your choice and the centre tile. You may only place tiles next to previously laid ones. Once you have finished placing your word, click "Play Word" to submit. If you change your mind, the "Clear" button will reset your selection. You can swap an unwanted letter by selecting it, and then clicking "Swap Letter". Bonus points can be scored by placing letters on the appropriate tiles, or by using all your letters in one turn. Selecting a blank tile and then a position on the board will display a popup, where you can choose what letter to replace it with. Blanks score 0 points.
+To play the game, click on a letter of your choice and the centre tile. You may only place tiles next to previously laid ones. Once you have finished placing your word, click "Play Word" to submit. If you change your mind, the "Clear" button will reset your selection. You can swap an unwanted letter by selecting it, and then clicking "Swap Letter". To shuffle your letters, click "Shuffle Letters". Bonus points can be scored by placing letters on the appropriate tiles, or by using all your letters in one turn. Selecting a blank tile and then a position on the board will display a popup, where you can choose what letter to replace it with. Blanks score 0 points.
 
-Words can currently intersect with each other horizontally and vertically. Cannot yet make hook words.
+Words can currently intersect with each other horizontally and vertically. Cannot make hook words.
 
 When the game runs low on letters, the console merely says game over.
 
-The main scrabble controller is very large, and I would like to separate it out into separate ones, and to use an Angular Service to hold data. It's rather difficult to do now though, as the controller is rather complex.
+The main scrabble controller is very large, and I would like to separate it out into separate ones, and to use an Angular Service to hold data. It's rather difficult to do now though, as the controller is rather complex. I believe this is as far as I can go with this unfortunately, as it has become quite complex and difficult to extend. Perhaps in the future I will have another go at fully creating this.
 
 ## Installation
 
