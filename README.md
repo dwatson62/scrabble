@@ -7,7 +7,9 @@ Scrabble
 
 ## Synopsis
 
-Making Scrabble in Angular. Because why not. Available at [https://scrabble62.herokuapp.com/](https://scrabble62.herokuapp.com/)
+Making Scrabble in Angular. Because why not.
+
+This repo was my first attempt. Visit https://github.com/dwatson62/scrabble-backbone/](https://github.com/dwatson62/scrabble-backbone/) for my current attempt.
 
 Current Version:
 
